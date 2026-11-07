@@ -176,6 +176,7 @@
         : 'about:blank';
       if (yt) { $('cwatch').href = 'https://youtu.be/' + yt[1]; $('cwatch').textContent = 'Watch on YouTube'; }
       else if (vm) { $('cwatch').href = p.video; $('cwatch').textContent = 'Watch on Vimeo'; }
+      var pl = document.querySelector('.cd-player'); if (pl) pl.hidden = !p.tracks.length;
       var ol = $('ctracks'); ol.innerHTML = '';
       if (!p.tracks.length) {
         var li = document.createElement('li'); li.className = 'empty'; li.textContent = 'Singles for this project are coming soon.'; ol.appendChild(li);
