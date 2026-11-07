@@ -28,6 +28,7 @@
       kind: 'Score',
       meta: '',
       text: 'More about this project soon.',
+      video: 'https://vimeo.com/1222400394/255af382ea',
       tracks: []
     },
     {
@@ -164,11 +165,16 @@
       $('cmeta').textContent = p.meta || '';
       $('cmeta').hidden = !p.meta;
       $('ctext').textContent = p.text || '';
-      var vid = (p.video || '').match(/(?:youtu\.be\/|v=)([\w-]{11})/);
+      var yt = (p.video || '').match(/(?:youtu\.be\/|v=)([\w-]{11})/);
+      var vm = (p.video || '').match(/vimeo\.com\/(\d+)(?:\/(\w+))?/);
+      var vid = yt || vm;
       $('cvideo').hidden = !vid;
       $('cnote').textContent = p.note || ''; $('cnote').hidden = !p.note;
-      $('cframe').src = vid ? 'https://www.youtube-nocookie.com/embed/' + vid[1] + '?rel=0' : 'about:blank';
-      if (vid) $('cwatch').href = 'https://youtu.be/' + vid[1];
+      $('cframe').src = yt ? 'https://www.youtube-nocookie.com/embed/' + yt[1] + '?rel=0'
+        : vm ? 'https://player.vimeo.com/video/' + vm[1] + (vm[2] ? '?h=' + vm[2] : '')
+        : 'about:blank';
+      if (yt) { $('cwatch').href = 'https://youtu.be/' + yt[1]; $('cwatch').textContent = 'Watch on YouTube'; }
+      else if (vm) { $('cwatch').href = p.video; $('cwatch').textContent = 'Watch on Vimeo'; }
       var ol = $('ctracks'); ol.innerHTML = '';
       if (!p.tracks.length) {
         var li = document.createElement('li'); li.className = 'empty'; li.textContent = 'Singles for this project are coming soon.'; ol.appendChild(li);
