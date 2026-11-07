@@ -855,3 +855,7 @@ main#top { position: relative; }
 
 /* scores: size the carousel to the viewport height so header, posters and the scroll cue fit in the first view */
 .rail { --pw: clamp(160px, min(24vw, 27svh), 300px); }
+
+.scrollcue { color: #fff; opacity: 1; }
+.scrollcue.gone { opacity: 0; }
+.scrollcue i { display: none; }
