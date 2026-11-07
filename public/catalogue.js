@@ -34,6 +34,17 @@
       tracks: []
     },
     {
+      id: 'rotterdam',
+      poster: 'poster-new.jpg',
+      alt: 'Still of a woman with her eyes closed in front of a mirrored building',
+      title: 'New Score',
+      kind: 'Score',
+      meta: '',
+      text: 'More about this project soon.',
+      video: 'https://youtu.be/utGyDJZ2l1c',
+      tracks: []
+    },
+    {
       id: 'freek',
       poster: 'poster-freek-blur.jpg',
       alt: 'Blurred poster for an upcoming project',
