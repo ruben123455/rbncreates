@@ -845,3 +845,13 @@ main#top { position: relative; }
 .cat-head { text-align: center; margin: 0 0 clamp(18px, 3vw, 40px); will-change: filter, opacity; }
 .cat-head .cat-title { margin: 0 0 clamp(10px, 1.6vw, 18px); font-size: clamp(2.2rem, 5.4vw, 4.4rem); }
 .cat-intro { margin: 0 auto; max-width: 44ch; line-height: 1.7; color: var(--dim); text-wrap: balance; font-size: clamp(0.95rem, 1.2vw, 1.05rem); }
+
+/* scores: scroll-down cue, gone as soon as the page moves */
+.scrollcue { position: fixed; left: 0; right: 0; bottom: clamp(8px, 1.6vh, 16px); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); pointer-events: none; transition: opacity 0.25s ease; }
+.scrollcue i { display: block; width: 1px; height: 22px; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0)); transform-origin: top; animation: cue-line 1.8s ease-in-out infinite; }
+.scrollcue.gone { opacity: 0; }
+@keyframes cue-line { 0% { transform: scaleY(0); opacity: 1; } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .scrollcue i { animation: none; } }
+
+/* scores: size the carousel to the viewport height so header, posters and the scroll cue fit in the first view */
+.rail { --pw: clamp(160px, min(24vw, 27svh), 300px); }

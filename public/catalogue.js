@@ -257,3 +257,32 @@
   window.addEventListener('resize', onScroll);
   update();
 })();
+
+/* scores: hide the scroll cue the moment the page starts to move */
+(function () {
+  var cue = document.getElementById('scue'); if (!cue) return;
+  function check() { cue.classList.toggle('gone', window.scrollY > 2); }
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+})();
+
+/* scores: the details start blurred below the carousel and come into focus as you scroll down */
+(function () {
+  var det = document.getElementById('cdetail'); if (!det) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var vh = window.innerHeight;
+    Array.prototype.forEach.call(det.children, function (el) {
+      var r = el.getBoundingClientRect(); if (!r.height) return;
+      var p = Math.max(0, Math.min(1, (r.top - vh * 0.45) / (vh * 0.5)));
+      el.style.filter = p < 0.01 ? '' : 'blur(' + (p * 10).toFixed(2) + 'px)';
+      el.style.opacity = p < 0.01 ? '' : String((1 - p * 0.55).toFixed(3));
+    });
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
