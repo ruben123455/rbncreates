@@ -791,3 +791,4 @@ main#top { position: relative; }
 .scorebg.on { opacity: 1; }
 .scorebg.on { transition-duration: 0.9s; }
 .cd-player[hidden] { display: none; }
+.cd-note { white-space: pre-line; }

@@ -28,8 +28,9 @@
       title: 'Made with Love',
       kind: 'Score',
       meta: '',
-      text: 'More about this project soon.',
+      text: 'Original music for a short film directed by Nigel.',
       video: 'https://vimeo.com/1222400394/255af382ea',
+      note: 'When Nigel, the director of this short film, first reached out to me, I knew within minutes that I wanted to be part of it. The story he shared was personal, tender and honest, the kind that stays with you long after you\u2019ve heard it, and I wanted my music to be the thing that carries it.\n\nWorking closely with Nigel, I set out to let the emotion lead and the score follow. Every note had to serve the story: quiet where the film needs room to breathe, warm where it needs to reach out to you.\n\nI\u2019m especially proud to share that the film will be participating in the Sundance Film Festival 2027. It\u2019s a real honor to see something made with so much heart travel that far. Thank you, Nigel, for trusting me with your story.',
       tracks: []
     },
     {
