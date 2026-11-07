@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Content | Ruben Camacho</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a class="br logo" href="index.html" aria-label="rbncreates home"><span>rbncreates</span></a>
+  <button class="br" id="open" type="button" aria-expanded="false" aria-controls="menu"><span>[</span><span>Menu</span><span>]</span></button>
+</header>
+
+<nav id="menu" hidden aria-label="Main">
+  <button class="br close" id="close" type="button"><span>[</span><span>Close</span><span>]</span></button>
+  <a class="big" href="index.html" style="--img:url(menu1.jpg)"><span>Home</span></a>
+  <a class="big" href="scores.html" style="--img:url(menu2.jpg)"><span>Scores</span></a>
+  <a class="big" href="content.html" style="--img:url(menu3.jpg)"><span>Content</span></a>
+  <a class="big" href="about.html" style="--img:url(menu4.jpg)"><span>About</span></a>
+  <a class="big" href="contact.html" style="--img:url(menu5.jpg)"><span>Contact</span></a>
+</nav>
+<main id="top">
+  <section class="mk-hero" aria-label="Creating stories instead of ads">
+    <video class="mkbg" src="bg.mp4#t=12" poster="poster.jpg" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+    <h1>Creating stories<br>instead of ads</h1>
+    <p>Every project I take on starts with one question: how do we inspire people instead of making them swipe past? The goal is never to be louder. It's to be felt.</p>
+  </section>
+
+  <section class="mk-intro" aria-label="Welcome to my media kit">
+    <div class="mk-intro-grid">
+      <div class="mk-intro-copy">
+        <h2>Welcome to my <em>media kit</em></h2>
+        <div class="mk-text">
+          <p>I'm Ruben, a media composer from Costa Rica, now based in the Netherlands. I write music for film and trailers, and I've been lucky to work with some of the biggest names in the film music industry.</p>
+          <p>On the side, I share what life as a composer really looks like and help other music creators grow their brands online. Have a look around, and see if we'd make something good together.</p>
+        </div>
+      </div>
+      <figure class="mk-photo"><img src="me-square.jpg" alt="Ruben Camacho at his desk in the studio"></figure>
+    </div>
+  </section>
+
+  <section class="mk-reels" aria-label="Reels">
+    <h2>Selected work</h2>
+    <p class="mk-sub">Swipe through a few short-form examples.</p>
+    <div class="rl-outer">
+      <button class="br arrow prev" id="rprev" type="button" aria-label="Previous reel"><img src="arrow.png" alt="" draggable="false"></button>
+      <button class="br arrow next" id="rnext" type="button" aria-label="Next reel"><img src="arrow.png" alt="" draggable="false"></button>
+      <div class="rl-wrap"><div class="rl" id="rl">
+        <figure class="reel" data-i="0"><div class="rl-frame"><video src="envoy-roli.mp4" poster="envoy-roli.jpg" preload="none" playsinline loop></video><span class="rl-play" aria-hidden="true"></span><span class="rl-ph">Envoy × Roli</span></div></figure>
+        <figure class="reel" data-i="1"><div class="rl-frame"><video src="spitfire-synth.mp4" poster="spitfire-synth.jpg" preload="none" playsinline loop></video><span class="rl-play" aria-hidden="true"></span><span class="rl-ph">Spitfire Synth Sale</span></div></figure>
+        <figure class="reel" data-i="2"><div class="rl-frame"><video src="albion.mp4" poster="albion.jpg" preload="none" playsinline loop></video><span class="rl-play" aria-hidden="true"></span><span class="rl-ph">Albion Flash Sale</span></div></figure>
+        <figure class="reel" data-i="3"><div class="rl-frame"><video src="air-studios.mp4" poster="air-studios.jpg" preload="none" playsinline loop></video><span class="rl-play" aria-hidden="true"></span><span class="rl-ph">Air Studios</span></div></figure>
+        <figure class="reel" data-i="4"><div class="rl-frame"><video src="halion.mp4" poster="halion.jpg" preload="none" playsinline loop></video><span class="rl-play" aria-hidden="true"></span><span class="rl-ph">HALion 7.5 MPE</span></div></figure>
+        <figure class="reel" data-i="5"><div class="rl-frame"><video src="bleck.mp4" poster="bleck.jpg" preload="none" playsinline loop></video><span class="rl-play" aria-hidden="true"></span><span class="rl-ph">Bleck Distinction</span></div></figure>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="mk-brands" aria-label="Brands I have worked with">
+    <video class="mkbg2" src="bg.mp4#t=12" poster="poster.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+    <p class="label">Collaborations</p>
+    <h2>Brands I've worked with</h2>
+    <p class="mk-sub">Sample library makers, plugin developers, instrument brands, studios and institutions.</p>
+    <div class="bwrap collapsed" id="bwrap">
+      <ul class="bgrid" id="bgrid">
+        <li style="--i:0"><a href="https://www.spitfireaudio.com" target="_blank" rel="noopener" aria-label="Spitfire Audio"><img src="spitfire.svg" alt="Spitfire Audio" loading="lazy" draggable="false"></a></li>
+        <li class="keep" style="--i:0"><a href="https://www.rotterdam.nl" target="_blank" rel="noopener" aria-label="Gemeente Rotterdam"><img src="rotterdam.png" alt="Gemeente Rotterdam" loading="lazy" draggable="false"></a></li>
+        <li style="--i:0"><a href="https://www.sonarworks.com" target="_blank" rel="noopener" aria-label="Sonarworks"><img src="sonarworks.svg" alt="Sonarworks" loading="lazy" draggable="false"></a></li>
+        <li style="--i:0"><a href="https://www.audiomodern.com" target="_blank" rel="noopener" aria-label="Audiomodern"><img src="audiomodern.png" alt="Audiomodern" loading="lazy" draggable="false"></a></li>
+        <li style="--i:0"><a href="https://www.olympics.com" target="_blank" rel="noopener" aria-label="Olympic Games"><img src="olympics.png" alt="Olympic Games" loading="lazy" draggable="false"></a></li>
+        <li style="--i:0"><a href="https://www.soundiron.com" target="_blank" rel="noopener" aria-label="Soundiron"><img src="soundiron.png" alt="Soundiron" loading="lazy" draggable="false"></a></li>
+        <li class="light" style="--i:0"><a href="https://www.emergenceaudio.com" target="_blank" rel="noopener" aria-label="Emergence Audio"><img src="emergence.png" alt="Emergence Audio" loading="lazy" draggable="false"></a></li>
+        <li class="solid" style="--i:0"><a href="https://www.freekvonk.nl" target="_blank" rel="noopener" aria-label="Studio Freek"><img src="studio-freek.png" alt="Studio Freek" loading="lazy" draggable="false"></a></li>
+        <li style="--i:0"><a href="https://www.sonokinetic.net" target="_blank" rel="noopener" aria-label="Sonokinetic"><img src="sonokinetic.png" alt="Sonokinetic" loading="lazy" draggable="false"></a></li>
+        <li style="--i:0"><a href="https://www.scalerplugin.com" target="_blank" rel="noopener" aria-label="Scaler 2"><img src="scaler.png" alt="Scaler 2" loading="lazy" draggable="false"></a></li>
+        <li style="--i:0"><a href="https://www.steinberg.net" target="_blank" rel="noopener" aria-label="Steinberg"><img src="steinberg.png" alt="Steinberg" loading="lazy" draggable="false"></a></li>
+        <li class="light" style="--i:0"><a href="https://www.sennheiser.com" target="_blank" rel="noopener" aria-label="Sennheiser"><img src="sennheiser.png" alt="Sennheiser" loading="lazy" draggable="false"></a></li>
+        <li class="light" style="--i:0"><a href="https://www.evolutionseries.com" target="_blank" rel="noopener" aria-label="Evolution Series"><img src="evolution.png" alt="Evolution Series" loading="lazy" draggable="false"></a></li>
+        <li style="--i:0"><a href="https://www.polyversemusic.com" target="_blank" rel="noopener" aria-label="Polyverse"><img src="polyverse.png" alt="Polyverse" loading="lazy" draggable="false"></a></li>
+        <li style="--i:1"><a href="https://www.datamindaudio.com" target="_blank" rel="noopener" aria-label="Datamind Audio"><img src="datamind.png" alt="Datamind Audio" loading="lazy" draggable="false"></a></li>
+        <li style="--i:2"><a href="https://www.pulsar-audio.com" target="_blank" rel="noopener" aria-label="Pulsar Audio"><img src="pulsar.png" alt="Pulsar Audio" loading="lazy" draggable="false"></a></li>
+        <li style="--i:3"><img src="psstt.png" alt="Psstt Instruments" loading="lazy" draggable="false"></li>
+        <li style="--i:4"><a href="https://www.audioollie.com" target="_blank" rel="noopener" aria-label="Audio Ollie"><img src="audio-ollie.png" alt="Audio Ollie" loading="lazy" draggable="false"></a></li>
+        <li class="plain" style="--i:5"><a href="https://www.waproduction.com" target="_blank" rel="noopener" aria-label="WA Production"><img src="wa-production.png" alt="WA Production" loading="lazy" draggable="false"></a></li>
+        <li class="light" style="--i:6"><a href="https://www.fracturesounds.com" target="_blank" rel="noopener" aria-label="Fracture Sounds"><img src="fracture.png" alt="Fracture Sounds" loading="lazy" draggable="false"></a></li>
+        <li style="--i:7"><img src="mark-s.png" alt="Client logo" loading="lazy" draggable="false"></li>
+        <li class="light" style="--i:8"><img src="mark-white.png" alt="Client logo" loading="lazy" draggable="false"></li>
+        <li class="light" style="--i:9"><a href="https://www.melodysheep.com" target="_blank" rel="noopener" aria-label="Client logo"><img src="sheep.png" alt="Client logo" loading="lazy" draggable="false"></a></li>
+        </ul>
+    </div>
+    <button class="br learn" id="bmore" type="button" aria-expanded="false" aria-controls="bgrid"><span>Show more</span></button>
+  </section>
+
+  <section class="mk-rates" aria-label="Rates">
+    <h2>Rates</h2>
+    <p class="mk-sub">Every project is different, so rates depend on scope, usage and timeline. Here is how I usually work.</p>
+    <div class="rcard">
+      <ul class="rlist">
+        <li><div><h3>Short-form video</h3><p>Reel or TikTok made with your product or sound, shot and scored by me.</p></div><span class="rate">€400 – €1,200<small>Varies on request</small></span></li>
+        <li><div><h3>Long-form integration</h3><p>A walkthrough or review of your product in a dedicated segment or full video, from concept to final cut.</p></div><span class="rate">On request</span></li>
+        <li><div><h3>Custom music</h3><p>Original music or sound design written for your campaign.</p></div><span class="rate">On request</span></li>
+        <li><div><h3>Usage rights</h3><p>Whitelisting, paid usage and extended licences for your channels.</p></div><span class="rate">On request</span></li>
+        </ul>
+      <div class="rfoot">
+        <p>Looking for something specific? Tell me about your project and I'll put a proposal together.</p>
+        <a class="br learn" href="contact.html"><span>Request the full rate card</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <span>&copy; 2026 Ruben Camacho &middot; rbncreates.com</span>
+  <a href="index.html">Home</a>
+</footer>
+
+<script src="site.js"></script>
+<script src="brands.js"></script>
+<script src="reels.js"></script>
+</body>
+</html>

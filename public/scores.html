@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scores | Ruben Camacho</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a class="br logo" href="index.html" aria-label="rbncreates home"><span>rbncreates</span></a>
+  <button class="br" id="open" type="button" aria-expanded="false" aria-controls="menu"><span>[</span><span>Menu</span><span>]</span></button>
+</header>
+
+<nav id="menu" hidden aria-label="Main">
+  <button class="br close" id="close" type="button"><span>[</span><span>Close</span><span>]</span></button>
+  <a class="big" href="index.html" style="--img:url(menu1.jpg)"><span>Home</span></a>
+  <a class="big" href="scores.html" style="--img:url(menu2.jpg)"><span>Scores</span></a>
+  <a class="big" href="content.html" style="--img:url(menu3.jpg)"><span>Content</span></a>
+  <a class="big" href="about.html" style="--img:url(menu4.jpg)"><span>About</span></a>
+  <a class="big" href="contact.html" style="--img:url(menu5.jpg)"><span>Contact</span></a>
+</nav>
+<main id="top">
+  <div class="topvid" aria-hidden="true"><video src="bg.mp4" poster="poster.jpg" autoplay muted loop playsinline preload="auto"></video></div>
+  <section class="catalogue" id="catalogue" aria-label="Scores catalogue">
+    <h1 class="cat-title">Scores</h1>
+    <div class="rail-outer">
+      <div class="rail-wrap">
+        <div class="rail" id="rail" tabindex="0" role="listbox" aria-label="Choose a project"></div>
+      </div>
+      <button class="br arrow prev" id="cprev" type="button" aria-label="Previous project"><img src="arrow.png" alt="" draggable="false"></button>
+      <button class="br arrow next" id="cnext" type="button" aria-label="Next project"><img src="arrow.png" alt="" draggable="false"></button>
+      <span id="ccount" hidden></span>
+    </div>
+    <div class="cat-detail" id="cdetail" aria-live="polite">
+      <div class="cd-info">
+        <p class="label" id="ckind"></p>
+        <h2 id="ctitle"></h2>
+        <p class="cd-meta" id="cmeta"></p>
+        <p class="cd-text" id="ctext"></p>
+      </div>
+      <div class="cd-video" id="cvideo" hidden>
+        <div class="vframe"><iframe id="cframe" title="Watch the film" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+        <a class="yt" id="cwatch" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
+      </div>
+      <div class="cd-player">
+        <div class="pl">
+          <button class="br" id="cplay" type="button" disabled><span>[</span><span>Play</span><span>]</span></button>
+          <input id="cseek" type="range" min="0" max="1000" value="0" aria-label="Seek" disabled>
+          <span class="pl-time" id="ctime">0:00</span>
+        </div>
+        <ol class="tracks" id="ctracks"></ol>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer>
+  <span>&copy; 2026 Ruben Camacho &middot; rbncreates.com</span>
+  <a href="index.html">Home</a>
+</footer>
+
+<script src="site.js"></script>
+<script src="catalogue.js"></script>
+</body>
+</html>
