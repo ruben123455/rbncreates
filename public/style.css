@@ -828,3 +828,8 @@ main#top { position: relative; }
 .case-link { align-self: flex-start; margin-top: 6px; color: #fff; text-decoration: none; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; border-bottom: 1px solid rgba(255, 255, 255, 0.4); padding-bottom: 3px; transition: border-color 0.25s ease; }
 .case-link:hover { border-color: #fff; }
 .case dd em { font-style: italic; }
+
+.case.case-split, .case.case-split:not(:has(.case-media)) { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
+.case-side { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.case-side .case-audio { margin-top: 0; max-width: none; }
+@media (max-width: 760px) { .case.case-split, .case.case-split:not(:has(.case-media)) { grid-template-columns: 1fr; } }
