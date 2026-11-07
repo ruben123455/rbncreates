@@ -11,6 +11,7 @@
       meta: 'Playbook Creative · December 12',
       text: 'Original music for the film about two-time Olympic badminton player Howard Shu, directed by Lester Hung and produced by Chikku Raj.',
       video: 'https://youtu.be/Vr7kKUPgEE0',
+      note: 'Working with the Playbook Creative team on this Olympic campaign was a true honor. It began with a brief, which we slowly shaped into music, step by step, letting the heart of Howard Shu\u2019s story echo through every note and theme. Each element of the story found its own voice in the score, and together they carry the feeling of the film from the first scene to the last. The result truly inspired me, and it\u2019s a piece I\u2019m proud of. Thank you, Chikku and Lester, for the chance to work on such a remarkable story.',
       tracks: [
         { title: 'Fork in the Road', src: 'fork-in-the-road.mp3', duration: '2:01' },
         { title: "It's an Obsession", src: 'its-an-obsession.mp3', duration: '1:06' },
@@ -162,6 +163,7 @@
       $('ctext').textContent = p.text || '';
       var vid = (p.video || '').match(/(?:youtu\.be\/|v=)([\w-]{11})/);
       $('cvideo').hidden = !vid;
+      $('cnote').textContent = p.note || ''; $('cnote').hidden = !p.note;
       $('cframe').src = vid ? 'https://www.youtube-nocookie.com/embed/' + vid[1] + '?rel=0' : 'about:blank';
       if (vid) $('cwatch').href = 'https://youtu.be/' + vid[1];
       var ol = $('ctracks'); ol.innerHTML = '';

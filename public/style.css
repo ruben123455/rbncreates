@@ -736,3 +736,5 @@ main#top { position: relative; isolation: isolate; }
 .reel::after { content: ""; position: absolute; inset: 0; background: #000; opacity: var(--dim, 0); pointer-events: none; z-index: 5; }
 #ckind { display: none; }
 .cat-title { margin: 0 0 clamp(18px, 3vw, 40px); text-align: center; font-family: var(--font-display); font-weight: 200; font-size: clamp(3rem, 9vw, 7.5rem); line-height: 1; letter-spacing: 0.14em; text-indent: 0.14em; text-transform: uppercase; color: var(--fg); }
+
+.cd-note { max-width: 46rem; margin: clamp(18px, 2.6vw, 34px) auto 0; padding: 0 var(--gutter-l, 24px); text-align: center; font-size: clamp(0.98rem, 1.25vw, 1.12rem); line-height: 1.75; color: var(--dim); }
