@@ -859,3 +859,8 @@ main#top { position: relative; }
 .scrollcue { color: #fff; opacity: 1; }
 .scrollcue.gone { opacity: 0; }
 .scrollcue i { display: none; }
+
+.cd-note .np { display: block; }
+.cd-note .np + .np { margin-top: 1.1em; }
+.cd-note { white-space: normal; }
+.scrollcue { bottom: clamp(36px, 7svh, 64px); }

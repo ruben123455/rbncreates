@@ -183,7 +183,9 @@
       var vm = (p.video || '').match(/vimeo\.com\/(\d+)(?:\/(\w+))?/);
       var vid = yt || vm;
       $('cvideo').hidden = !vid;
-      $('cnote').textContent = p.note || ''; $('cnote').hidden = !p.note;
+      var nt = $('cnote'); nt.innerHTML = '';
+      (p.note || '').split(/\n\n+/).forEach(function (para) { if (!para) return; var sp = document.createElement('span'); sp.className = 'np'; sp.textContent = para; nt.appendChild(sp); });
+      nt.hidden = !p.note;
       $('cframe').src = yt ? 'https://www.youtube-nocookie.com/embed/' + yt[1] + '?rel=0'
         : vm ? 'https://player.vimeo.com/video/' + vm[1] + (vm[2] ? '?h=' + vm[2] : '')
         : 'about:blank';
@@ -266,23 +268,25 @@
   check();
 })();
 
-/* scores: the details start blurred below the carousel and come into focus as you scroll down */
+/* scores: every block of the details comes into focus as it scrolls up into view (title, text, video, each paragraph, player, each track) */
 (function () {
   var det = document.getElementById('cdetail'); if (!det) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var SEL = '#ctitle, #cmeta, #ctext, .cd-video, .cd-note .np, .cd-ptitle, .cd-player .pl, #ctracks > li';
   var ticking = false;
   function update() {
     ticking = false;
     var vh = window.innerHeight;
-    Array.prototype.forEach.call(det.children, function (el) {
+    Array.prototype.forEach.call(det.querySelectorAll(SEL), function (el) {
       var r = el.getBoundingClientRect(); if (!r.height) return;
-      var p = Math.max(0, Math.min(1, (r.top - vh * 0.45) / (vh * 0.5)));
+      var p = Math.max(0, Math.min(1, (r.top - vh * 0.62) / (vh * 0.3)));
       el.style.filter = p < 0.01 ? '' : 'blur(' + (p * 10).toFixed(2) + 'px)';
-      el.style.opacity = p < 0.01 ? '' : String((1 - p * 0.55).toFixed(3));
+      el.style.opacity = p < 0.01 ? '' : String((1 - p * 0.6).toFixed(3));
     });
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
+  new MutationObserver(onScroll).observe(det, { childList: true, subtree: true });
   update();
 })();
