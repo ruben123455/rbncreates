@@ -268,11 +268,11 @@
   check();
 })();
 
-/* scores: every block of the details comes into focus as it scrolls up into view (title, text, video, each paragraph, player, each track) */
+/* scores: only the title block (title, meta, summary) comes into focus as it scrolls up into view; everything below stays sharp */
 (function () {
   var det = document.getElementById('cdetail'); if (!det) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var SEL = '#ctitle, #cmeta, #ctext, .cd-video, .cd-note .np, .cd-ptitle, .cd-player .pl, #ctracks > li';
+  var SEL = '.cd-info';
   var ticking = false;
   function update() {
     ticking = false;
