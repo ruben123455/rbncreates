@@ -4,6 +4,7 @@
   var PROJECTS = [
     {
       id: '10000',
+      bg: 'scene-10000.jpg',
       poster: 'poster-10000.jpg',
       alt: 'Poster for 10,000 Days of Chasing My Dreams, starring Howard Shu',
       title: '10,000 Days of Chasing My Dreams',
@@ -157,6 +158,7 @@
     d.classList.add('swap');
     setTimeout(function () {
       audio.pause(); current = -1; setPlaying(false);
+      var sb = $('scorebg'); if (sb) { if (p.bg) sb.style.backgroundImage = 'url(' + p.bg + ')'; sb.classList.toggle('on', !!p.bg); }
       $('ckind').textContent = p.kind || '';
       $('ctitle').textContent = p.title;
       $('cmeta').textContent = p.meta || '';
