@@ -54,3 +54,19 @@
   window.addEventListener('resize', onScroll);
   update();
 })();
+
+/* case study audio player */
+(function () {
+  document.querySelectorAll('.case-audio').forEach(function (box) {
+    var a = new Audio(); a.preload = 'none'; a.src = box.getAttribute('data-src');
+    var btn = box.querySelector('.ca-btn'), seek = box.querySelector('.ca-seek'), time = box.querySelector('.ca-time');
+    function fmt(s) { s = Math.floor(s || 0); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+    function prog() { var p = a.duration ? a.currentTime / a.duration : 0; seek.value = Math.round(p * 1000); seek.style.setProperty('--p', (p * 100).toFixed(2) + '%'); time.textContent = fmt(a.currentTime); }
+    btn.addEventListener('click', function () { if (a.paused) { a.play(); } else { a.pause(); } });
+    a.addEventListener('play', function () { btn.classList.add('on'); btn.setAttribute('aria-label', 'Pause'); });
+    a.addEventListener('pause', function () { btn.classList.remove('on'); btn.setAttribute('aria-label', 'Play'); });
+    a.addEventListener('ended', function () { a.currentTime = 0; prog(); });
+    a.addEventListener('timeupdate', prog);
+    seek.addEventListener('input', function () { if (a.duration) { a.currentTime = a.duration * seek.value / 1000; prog(); } });
+  });
+})();
