@@ -833,3 +833,10 @@ main#top { position: relative; }
 .case-side { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 .case-side .case-audio { margin-top: 0; max-width: none; }
 @media (max-width: 760px) { .case.case-split, .case.case-split:not(:has(.case-media)) { grid-template-columns: 1fr; } }
+
+/* about: full bio */
+.band .col.bio { max-width: 44rem; gap: 22px; }
+.band .col.bio p { line-height: 1.8; }
+.band .col.bio p.lead { line-height: 1.65; margin-bottom: 8px; }
+.band .col.bio a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.35); transition: border-color 0.25s ease; }
+.band .col.bio a:hover { border-color: #fff; }
