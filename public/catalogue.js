@@ -20,16 +20,6 @@
       ]
     },
     {
-      id: 'freek',
-      poster: 'poster-freek.jpg',
-      alt: 'Poster for Freek Vonk Live: Rovers in de Rimboe',
-      title: 'Freek Vonk Live: Rovers in de Rimboe',
-      kind: 'Theatrical score · Live show',
-      meta: 'Freek Vonk Studios · AFAS Live · December 2026',
-      text: 'The theatrical music for a Freek Vonk Studios show at AFAS Live, performed in front of thousands of people.',
-      tracks: []
-    },
-    {
       id: 'love',
       poster: 'poster-love.jpg',
       alt: 'Poster that reads Made with Love',
@@ -37,6 +27,17 @@
       kind: 'Score',
       meta: '',
       text: 'More about this project soon.',
+      tracks: []
+    },
+    {
+      id: 'freek',
+      poster: 'poster-freek-blur.jpg',
+      alt: 'Blurred poster for an upcoming project',
+      title: 'Coming soon',
+      kind: '',
+      meta: '',
+      text: 'Something new is on its way. More soon.',
+      teaser: true,
       tracks: []
     }
   ];
@@ -52,7 +53,7 @@
 
   PROJECTS.forEach(function (p, i) {
     var b = document.createElement('button');
-    b.type = 'button'; b.className = 'poster'; b.setAttribute('role', 'option');
+    b.type = 'button'; b.className = 'poster' + (p.teaser ? ' teaser' : ''); b.setAttribute('role', 'option');
     var img = document.createElement('img');
     img.src = p.poster; img.alt = p.alt; img.draggable = false;
     var cap = document.createElement('span'); cap.className = 'pcap'; cap.textContent = p.title;
@@ -180,13 +181,13 @@
         li.appendChild(b); ol.appendChild(li);
       });
       var first = p.tracks.some(function (t) { return t.src; });
-      $('cplay').disabled = !first; $('cseek').disabled = !first; $('cseek').value = 0; $('ctime').textContent = '0:00';
+      $('cplay').disabled = !first; $('cseek').disabled = !first; $('cseek').value = 0; $('cseek').style.setProperty('--p', '0%'); $('ctime').textContent = '0:00';
       d.classList.remove('swap');
     }, reduce ? 0 : 160);
   }
 
   function setPlaying(on) {
-    var s = $('cplay').children[1]; s.textContent = on ? 'Pause' : 'Play';
+    $('cplay').classList.toggle('on', on); $('cplay').setAttribute('aria-label', on ? 'Pause' : 'Play');
     Array.prototype.forEach.call(document.querySelectorAll('#ctracks .trk'), function (b, k) { b.classList.toggle('playing', on && k === current); });
   }
   function playTrack(k) {
@@ -208,10 +209,10 @@
     if (n < tr.length) playTrack(n); else { current = -1; setPlaying(false); }
   });
   audio.addEventListener('timeupdate', function () {
-    if (audio.duration) $('cseek').value = Math.round(audio.currentTime / audio.duration * 1000);
+    if (audio.duration) { $('cseek').value = Math.round(audio.currentTime / audio.duration * 1000); $('cseek').style.setProperty('--p', (audio.currentTime / audio.duration * 100).toFixed(2) + '%'); }
     $('ctime').textContent = fmt(audio.currentTime);
   });
-  $('cseek').addEventListener('input', function () { if (audio.duration) audio.currentTime = audio.duration * this.value / 1000; });
+  $('cseek').addEventListener('input', function () { if (audio.duration) { audio.currentTime = audio.duration * this.value / 1000; this.style.setProperty('--p', (this.value / 10) + '%'); } });
 
   window.addEventListener('resize', function () { render(); });
   render(); select(0);

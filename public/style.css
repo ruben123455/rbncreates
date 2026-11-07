@@ -738,3 +738,38 @@ main#top { position: relative; isolation: isolate; }
 .cat-title { margin: 0 0 clamp(18px, 3vw, 40px); text-align: center; font-family: var(--font-display); font-weight: 200; font-size: clamp(3rem, 9vw, 7.5rem); line-height: 1; letter-spacing: 0.14em; text-indent: 0.14em; text-transform: uppercase; color: var(--fg); }
 
 .cd-note { max-width: 46rem; margin: clamp(18px, 2.6vw, 34px) auto 0; padding: 0 var(--gutter-l, 24px); text-align: center; font-size: clamp(0.98rem, 1.25vw, 1.12rem); line-height: 1.75; color: var(--dim); }
+
+/* brackets removed: labels stand alone */
+.br:hover span:first-child, .br:hover span:last-child { transform: none; }
+.br { transition: opacity 0.25s ease; }
+.br:not(:disabled):hover { opacity: 0.7; }
+
+/* soundtrack player */
+.cd-ptitle { margin: clamp(28px, 4vw, 52px) 0 18px; text-align: center; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--dim); }
+.cd-player { max-width: 38rem; }
+.cd-player .pl { gap: 20px; padding: 14px 22px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; background: rgba(255, 255, 255, 0.035); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); justify-content: flex-start; }
+.pbtn { all: unset; box-sizing: border-box; position: relative; flex: none; width: 46px; height: 46px; border-radius: 50%; background: #fff; cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease; }
+.pbtn:hover:not(:disabled) { transform: scale(1.06); }
+.pbtn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.pbtn:disabled { opacity: 0.3; cursor: default; }
+.pico { position: absolute; left: 50%; top: 50%; width: 0; height: 0; margin: -8px 0 0 -5px; border-left: 15px solid #0a0b0c; border-top: 8px solid transparent; border-bottom: 8px solid transparent; transition: all 0.15s ease; }
+.pbtn.on .pico { width: 12px; height: 16px; margin: -8px 0 0 -6px; border: 0; background: linear-gradient(to right, #0a0b0c 0 4px, transparent 4px 8px, #0a0b0c 8px 12px); }
+.cd-player .pl input[type=range] { flex: 1 1 auto; min-width: 0; height: 4px; border-radius: 4px; background: linear-gradient(to right, #fff var(--p, 0%), rgba(255, 255, 255, 0.2) var(--p, 0%)); }
+.cd-player .pl input[type=range]::-webkit-slider-thumb { width: 12px; height: 12px; opacity: 0; transition: opacity 0.2s ease; }
+.cd-player .pl:hover input[type=range]::-webkit-slider-thumb { opacity: 1; }
+.cd-player .pl input[type=range]::-moz-range-thumb { opacity: 0; }
+.cd-player .pl:hover input[type=range]::-moz-range-thumb { opacity: 1; }
+.cd-player .pl-time { min-width: 3.4ch; }
+.tracks { margin-top: 14px; display: grid; gap: 4px; }
+.tracks li { border: 0; }
+.trk { border-radius: 12px; padding: 14px 20px; transition: background 0.25s ease, color 0.25s ease; justify-content: space-between; }
+.trk:hover, .trk:focus-visible { background: rgba(255, 255, 255, 0.05); }
+.trk.playing { background: rgba(255, 255, 255, 0.09); }
+.trk .tt { flex: 1; text-align: left; }
+.trk .td { color: var(--dim); }
+.trk .tn { position: relative; width: 2.4ch; text-align: left; }
+.trk.playing .tn { color: transparent; }
+.trk.playing .tn::after { content: ""; position: absolute; left: 0; bottom: 3px; width: 3px; height: 12px; background: #fff; box-shadow: 5px 0 0 #fff, 10px 0 0 #fff; transform-origin: bottom; animation: eq 0.9s ease-in-out infinite; }
+@keyframes eq { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) { .trk.playing .tn::after { animation: none; } }
+.cd-player .trk, .cd-player .trk:hover, .cd-player .trk:focus-visible, .cd-player .trk.playing { padding: 14px 20px; }

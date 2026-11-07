@@ -10,11 +10,11 @@
 <body>
 <header>
   <a class="br logo" href="index.html" aria-label="rbncreates home"><span>rbncreates</span></a>
-  <button class="br" id="open" type="button" aria-expanded="false" aria-controls="menu"><span>[</span><span>Menu</span><span>]</span></button>
+  <button class="br" id="open" type="button" aria-expanded="false" aria-controls="menu"><span>Menu</span></button>
 </header>
 
 <nav id="menu" hidden aria-label="Main">
-  <button class="br close" id="close" type="button"><span>[</span><span>Close</span><span>]</span></button>
+  <button class="br close" id="close" type="button"><span>Close</span></button>
   <a class="big" href="index.html" style="--img:url(menu1.jpg)"><span>Home</span></a>
   <a class="big" href="scores.html" style="--img:url(menu2.jpg)"><span>Scores</span></a>
   <a class="big" href="content.html" style="--img:url(menu3.jpg)"><span>Content</span></a>
@@ -46,8 +46,9 @@
       </div>
       <p class="cd-note" id="cnote" hidden></p>
       <div class="cd-player">
+        <p class="cd-ptitle">A few snippets from the soundtrack</p>
         <div class="pl">
-          <button class="br" id="cplay" type="button" disabled><span>[</span><span>Play</span><span>]</span></button>
+          <button class="pbtn" id="cplay" type="button" disabled aria-label="Play"><i class="pico" aria-hidden="true"></i></button>
           <input id="cseek" type="range" min="0" max="1000" value="0" aria-label="Seek" disabled>
           <span class="pl-time" id="ctime">0:00</span>
         </div>
