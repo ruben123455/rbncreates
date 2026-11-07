@@ -840,3 +840,8 @@ main#top { position: relative; }
 .band .col.bio p.lead { line-height: 1.65; margin-bottom: 8px; }
 .band .col.bio a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.35); transition: border-color 0.25s ease; }
 .band .col.bio a:hover { border-color: #fff; }
+
+/* scores header: smaller title, intro, scroll blur */
+.cat-head { text-align: center; margin: 0 0 clamp(18px, 3vw, 40px); will-change: filter, opacity; }
+.cat-head .cat-title { margin: 0 0 clamp(10px, 1.6vw, 18px); font-size: clamp(2.2rem, 5.4vw, 4.4rem); }
+.cat-intro { margin: 0 auto; max-width: 44ch; line-height: 1.7; color: var(--dim); text-wrap: balance; font-size: clamp(0.95rem, 1.2vw, 1.05rem); }

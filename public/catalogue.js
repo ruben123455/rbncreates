@@ -228,3 +228,20 @@
   window.addEventListener('resize', function () { render(); });
   render(); select(0);
 })();
+
+/* scores header: blurs and fades as the page scrolls down */
+(function () {
+  var head = document.getElementById('chead'); if (!head) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var p = Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * 0.4)));
+    head.style.filter = p < 0.01 ? '' : 'blur(' + (p * 14).toFixed(2) + 'px)';
+    head.style.opacity = p < 0.01 ? '' : String((1 - p * 0.9).toFixed(3));
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
