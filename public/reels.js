@@ -45,10 +45,11 @@
   function kick() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
   function setTarget(i) { target = Math.round(i); kick(); }
 
-  var sx = 0, spos = 0, vx = 0, lx = 0, lt = 0;
+  var downCard = null, sx = 0, spos = 0, vx = 0, lx = 0, lt = 0;
   function spacing() { return items[0].offsetWidth * 0.98; }
   rail.addEventListener('pointerdown', function (e) {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
+    downCard = e.target.closest ? e.target.closest('.reel') : null;
     dragging = true; moved = false; sx = lx = e.clientX; spos = pos; vx = 0; lt = performance.now();
     rail.classList.add('drag'); try { rail.setPointerCapture(e.pointerId); } catch (_) {} kick();
   });
@@ -65,6 +66,7 @@
   function release() {
     if (!dragging) return;
     dragging = false; rail.classList.remove('drag');
+    if (!moved && downCard) { var tapped = downCard; downCard = null; tap(tapped); return; }
     var proj = pos - vx * 220 / spacing();
     setTarget(Math.round(clamp(proj, pos - 1, pos + 1)));
     setTimeout(function () { moved = false; }, 0);
@@ -90,16 +92,18 @@
   if (prev) prev.addEventListener('click', function () { setTarget(target - 1); });
   if (next) next.addEventListener('click', function () { setTarget(target + 1); });
 
-  items.forEach(function (c, i) {
-    c.addEventListener('click', function () {
-      if (moved) return;
-      var dd = Math.round(wrap(i - Math.round(target)));
-      if (dd !== 0) { setTarget(Math.round(target) + dd); return; }
-      var v = c.querySelector('video'); if (!v) return;
-      if (v.paused) { v.preload = 'auto'; v.play().then(function () { c.classList.add('playing'); }).catch(function () {}); }
-      else { v.pause(); c.classList.remove('playing'); }
-    });
-  });
+  function tap(c) {
+    var i = items.indexOf(c); if (i < 0) return;
+    var dd = Math.round(wrap(i - Math.round(target)));
+    if (dd !== 0) { setTarget(Math.round(target) + dd); return; }
+    var v = c.querySelector('video'); if (!v) return;
+    if (v.paused) {
+      v.preload = 'auto'; v.muted = false;
+      var pr = v.play();
+      c.classList.add('playing');
+      if (pr && pr.catch) pr.catch(function () { c.classList.remove('playing'); });
+    } else { v.pause(); c.classList.remove('playing'); }
+  }
   window.addEventListener('resize', render);
   pos = target = Math.floor((N - 1) / 2); render();
 })();
