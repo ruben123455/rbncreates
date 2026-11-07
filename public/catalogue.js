@@ -22,6 +22,7 @@
     },
     {
       id: 'love',
+      bg: 'scene-love.jpg',
       poster: 'poster-love.jpg',
       alt: 'Poster that reads Made with Love',
       title: 'Made with Love',
