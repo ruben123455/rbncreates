@@ -792,3 +792,24 @@ main#top { position: relative; }
 .scorebg.on { transition-duration: 0.9s; }
 .cd-player[hidden] { display: none; }
 .cd-note { white-space: pre-line; }
+
+/* case studies */
+.mk-cases { max-width: 68rem; margin: 0 auto; padding: clamp(56px, 8vw, 110px) var(--gutter-l); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.mk-cases h2 { margin: 0; font-size: clamp(1.4rem, 2.8vw, 2.2rem); font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; }
+.cases { width: 100%; display: flex; flex-direction: column; gap: clamp(20px, 3vw, 32px); margin-top: 14px; text-align: left; }
+.case { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; padding: clamp(22px, 3.4vw, 40px); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 6px; background: rgba(255, 255, 255, 0.025); }
+.case:not(:has(.case-media)) { grid-template-columns: minmax(0, 1fr); }
+.case-media { display: flex; gap: 12px; }
+.case-media figure { margin: 0; width: clamp(96px, 14vw, 150px); aspect-ratio: 9 / 16; border-radius: 4px; overflow: hidden; background: #000; }
+.case-media img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.35); transition: filter 0.4s ease; }
+.case:hover .case-media img { filter: none; }
+.case-body { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.case-logo { height: 28px; width: auto; max-width: 150px; align-self: flex-start; filter: brightness(0) invert(1); opacity: 0.75; }
+.case-logo[src$=".svg"] { width: 150px; height: auto; }
+.case-tag { margin: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); }
+.case h3 { margin: 0; font-family: var(--font-display); font-weight: 300; font-size: clamp(1.3rem, 2.2vw, 1.8rem); letter-spacing: 0.06em; text-transform: uppercase; }
+.case dl { margin: 6px 0 0; display: flex; flex-direction: column; gap: 16px; }
+.case dl div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 16px; }
+.case dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); padding-top: 3px; }
+.case dd { margin: 0; line-height: 1.65; color: rgba(255, 255, 255, 0.88); max-width: 52ch; }
+@media (max-width: 760px) { .case { grid-template-columns: 1fr; } .case-media figure { width: min(42vw, 150px); } .case dl div { grid-template-columns: 1fr; gap: 4px; } }
