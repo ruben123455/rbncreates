@@ -529,7 +529,7 @@ main#top { position: relative; isolation: isolate; }
 .introtext .sub .learn:hover span { transform: none; border-color: #fff; }
 
 /* menu and close buttons without brackets */
-#open > span:first-child, #open > span:last-child, #close > span:first-child, #close > span:last-child { display: none; }
+/* brackets removed: the single label span stays visible */
 #open:hover > span, #close:hover > span { transform: none; }
 
 /* let's make some noise: photo background with a dark fade */
@@ -773,3 +773,13 @@ main#top { position: relative; isolation: isolate; }
 @keyframes eq { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
 @media (prefers-reduced-motion: reduce) { .trk.playing .tn::after { animation: none; } }
 .cd-player .trk, .cd-player .trk:hover, .cd-player .trk:focus-visible, .cd-player .trk.playing { padding: 14px 20px; }
+
+/* contact: minimal */
+.cmin { min-height: 100svh; }
+.cmin .in { padding-block: 120px 80px; gap: 0; align-items: center; text-align: center; }
+.cmin h1 { margin: 0 0 clamp(28px, 4vw, 44px); font-family: var(--font-mono); font-size: 13px; font-weight: 400; letter-spacing: 0.32em; text-indent: 0.32em; text-transform: uppercase; line-height: 1.4; color: var(--fg); }
+.cmin .contacts { display: flex; flex-direction: column; gap: 22px; max-width: 24rem; }
+.cmin .contacts div { font-size: 14px; line-height: 1.7; color: var(--dim); }
+.cmin .contacts .label { margin-bottom: 2px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.7; }
+.cmin .contacts a { color: var(--fg); border-bottom: 0; }
+.cmin .contacts a:hover { opacity: 0.65; }
