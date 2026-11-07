@@ -36,12 +36,13 @@
     {
       id: 'rotterdam',
       poster: 'poster-new.jpg',
-      alt: 'Still of a woman with her eyes closed in front of a mirrored building',
-      title: 'New Score',
+      alt: 'Still from the Save the Museumpark campaign: a woman with her eyes closed in front of a mirrored building',
+      title: 'Save the Museumpark',
       kind: 'Score',
       meta: '',
-      text: 'More about this project soon.',
+      text: 'A campaign commissioned by Rotterdam to save the Museumpark, one of the last places left for the city\u2019s skaters.',
       video: 'https://youtu.be/utGyDJZ2l1c',
+      note: 'This campaign was commissioned by the municipality of Rotterdam to Save the Museumpark. With the park set to become a green space, there will soon be no place left for the city\u2019s skaters, and their concerns have so far gone unheard.\n\nThe film gives the skating scene a voice. It draws attention to what Rotterdam stands to lose when a place that people have made their own quietly disappears, and invites the city to listen before it does.\n\nI wrote the music to carry that feeling: the energy of the people who use the park every day, and the weight of a place that may not be there much longer.',
       tracks: []
     },
     {
