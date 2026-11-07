@@ -870,3 +870,7 @@ main#top { position: relative; }
 
 .case-reel { width: min(100%, 250px); aspect-ratio: 9 / 16; margin: 0 auto; border-radius: 4px; overflow: hidden; background: #000; border: 1px solid rgba(255, 255, 255, 0.1); }
 .case-reel video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-reel { width: min(100%, 320px); }
+.case-split:has(.case-reel) { align-items: center; padding-block: clamp(26px, 4vw, 48px); }
+@media (max-width: 760px) { .case-reel { width: min(78vw, 300px); } }
+.case.case-split:has(.case-reel), .case.case-split:has(.case-reel):not(:has(.case-media)) { align-items: center; }
