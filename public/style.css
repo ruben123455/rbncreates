@@ -904,3 +904,8 @@ main#top { position: relative; }
 .mk-reels[hidden], .mk-long[hidden] { display: none; }
 .mk-reels h2, .mk-long h2 { display: none; }
 .mk-reels, .mk-long { padding-top: clamp(14px, 2vw, 28px); }
+
+.mk-desc { display: grid; justify-items: center; text-align: center; padding: clamp(14px, 2vw, 24px) var(--gutter-l) 0; }
+.mk-desc .mk-sub { grid-area: 1 / 1; opacity: 0; transition: opacity 0.45s ease; pointer-events: none; }
+.mk-desc .mk-sub.on { opacity: 1; transition-delay: 0.15s; pointer-events: auto; }
+.mk-reels, .mk-long { padding-top: clamp(8px, 1.5vw, 20px); }

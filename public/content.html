@@ -46,10 +46,13 @@
     <button type="button" role="tab" class="mk-tab on" id="tab-short" aria-selected="true" aria-controls="sec-short" data-t="short">Short-form</button>
     <button type="button" role="tab" class="mk-tab" id="tab-long" aria-selected="false" aria-controls="sec-long" data-t="long">Long-form</button>
   </div>
+  <div class="mk-desc" aria-live="polite">
+    <p class="mk-sub on" data-d="short">Quick vertical edits made for the feed, with music and sound that land in the first seconds. Swipe through a few examples.</p>
+    <p class="mk-sub" data-d="long">Full-length walkthroughs, reviews and launches, with room to explain, demonstrate and tell the whole story.</p>
+  </div>
 
   <section class="mk-reels" id="sec-short" role="tabpanel" aria-labelledby="tab-short" aria-label="Reels">
     <h2>Short-form</h2>
-    <p class="mk-sub">Swipe through a few examples.</p>
     <div class="rl-outer">
       <button class="br arrow prev" id="rprev" type="button" aria-label="Previous reel"><img src="arrow.png" alt="" draggable="false"></button>
       <button class="br arrow next" id="rnext" type="button" aria-label="Next reel"><img src="arrow.png" alt="" draggable="false"></button>
@@ -66,7 +69,6 @@
 
   <section class="mk-long" id="sec-long" role="tabpanel" aria-labelledby="tab-long" aria-label="Long-form" hidden>
     <h2>Long-form</h2>
-    <p class="mk-sub">Walkthroughs, reviews and full-length integrations.</p>
     <div class="lf-grid">
       <article class="case case-split">
         <div class="case-body">
@@ -170,6 +172,7 @@
   tabs.forEach(function(b){b.addEventListener('click',function(){
     var t=b.getAttribute('data-t');
     tabs.forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);});
+    document.querySelectorAll('.mk-desc p').forEach(function(p){p.classList.toggle('on',p.getAttribute('data-d')===t);});
     document.getElementById('sec-short').hidden=t!=='short';
     document.getElementById('sec-long').hidden=t!=='long';
     requestAnimationFrame(function(){window.dispatchEvent(new Event('resize'));});
