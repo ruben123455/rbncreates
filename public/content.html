@@ -42,7 +42,13 @@
     </div>
   </section>
 
-  <section class="mk-reels" aria-label="Reels">
+  <div class="mk-tabs" role="tablist" aria-label="Selected work">
+    <button type="button" role="tab" class="mk-tab on" id="tab-short" aria-selected="true" aria-controls="sec-short" data-t="short">Short-form</button>
+    <span class="mk-tabsep" aria-hidden="true"></span>
+    <button type="button" role="tab" class="mk-tab" id="tab-long" aria-selected="false" aria-controls="sec-long" data-t="long">Long-form</button>
+  </div>
+
+  <section class="mk-reels" id="sec-short" role="tabpanel" aria-labelledby="tab-short" aria-label="Reels">
     <h2>Short-form</h2>
     <p class="mk-sub">Swipe through a few examples.</p>
     <div class="rl-outer">
@@ -59,7 +65,7 @@
     </div>
   </section>
 
-  <section class="mk-long" aria-label="Long-form">
+  <section class="mk-long" id="sec-long" role="tabpanel" aria-labelledby="tab-long" aria-label="Long-form" hidden>
     <h2>Long-form</h2>
     <p class="mk-sub">Walkthroughs, reviews and full-length integrations.</p>
     <div class="lf-grid">
@@ -159,5 +165,17 @@
 <script src="site.js"></script>
 <script src="brands.js"></script>
 <script src="reels.js"></script>
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.mk-tab');
+  tabs.forEach(function(b){b.addEventListener('click',function(){
+    var t=b.getAttribute('data-t');
+    tabs.forEach(function(x){var on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);});
+    document.getElementById('sec-short').hidden=t!=='short';
+    document.getElementById('sec-long').hidden=t!=='long';
+    requestAnimationFrame(function(){window.dispatchEvent(new Event('resize'));});
+  });});
+})();
+</script>
 </body>
 </html>

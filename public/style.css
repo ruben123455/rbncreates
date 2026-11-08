@@ -893,3 +893,14 @@ main#top { position: relative; }
 .seeon { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 22px; margin-top: 6px; }
 .seeon-l { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,.55); }
 .seeon .case-link { margin-top: 0; }
+
+/* short/long tabs */
+.mk-tabs { display: flex; justify-content: center; align-items: center; gap: clamp(18px, 4vw, 44px); padding: clamp(40px, 6vw, 90px) var(--gutter-l) 0; }
+.mk-tab { appearance: none; background: none; border: 0; padding: 0 0 8px; color: #fff; font: inherit; font-size: clamp(1.4rem, 2.8vw, 2.2rem); font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; opacity: 0.32; border-bottom: 1px solid transparent; transition: opacity 0.3s ease, border-color 0.3s ease; }
+.mk-tab:hover { opacity: 0.6; }
+.mk-tab.on { opacity: 1; border-color: rgba(255, 255, 255, 0.5); }
+.mk-tab:focus-visible { outline: 1px solid #fff; outline-offset: 6px; }
+.mk-tabsep { width: 1px; height: 1.6em; background: rgba(255, 255, 255, 0.25); }
+.mk-reels[hidden], .mk-long[hidden] { display: none; }
+.mk-reels h2, .mk-long h2 { display: none; }
+.mk-reels, .mk-long { padding-top: clamp(14px, 2vw, 28px); }
