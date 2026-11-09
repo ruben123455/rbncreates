@@ -1157,3 +1157,6 @@ body.sl-lock { overflow: hidden; }
 .sl-copy .sl-text { order: 4; }
 .sl-copy .sl-actions { order: 5; }
 @media (max-width: 860px) { .sl-slide { align-items: center; } .sl-copy h2 { margin-top: 0; } }
+
+/* scores page: page title centered in the top bar, quieter than the logo and menu */
+.hdr-title { position: absolute; left: 0; right: 0; top: calc(14px + env(safe-area-inset-top, 0px)); bottom: 22px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: clamp(15px, 2.1vw, 26px); font-weight: 300; letter-spacing: 0.03em; text-transform: uppercase; color: #fff; opacity: 0.42; pointer-events: none; white-space: nowrap; }
