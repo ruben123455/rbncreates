@@ -913,8 +913,8 @@ main#top { position: relative; }
 .lf-grid .case { border-color: transparent; }
 
 /* scores: bigger posters */
-.rail { --pw: clamp(190px, min(30vw, 31svh), 380px); }
-.rail-outer { --pw: clamp(190px, min(30vw, 31svh), 380px); }
+.rail { --pw: clamp(190px, min(33vw, 35svh), 440px); }
+.rail-outer { --pw: clamp(190px, min(33vw, 35svh), 440px); }
 
 /* scores: Film / Scores switch */
 .cat-tabs { display: flex; justify-content: center; align-items: baseline; gap: clamp(22px, 5vw, 60px); }
