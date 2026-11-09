@@ -27,9 +27,16 @@
   <div class="scorebg" id="scorebg" aria-hidden="true"></div>
   <section class="catalogue" id="catalogue" aria-label="Scores catalogue">
     <div class="cat-head" id="chead">
-      <h1 class="cat-title">Scores</h1>
-      <p class="cat-intro">Some of my best scores, from film to campaigns. Take your time, browse through, and press play on whatever catches your ear.</p>
+      <h1 class="cat-title cat-tabs" role="tablist" aria-label="Browse by type">
+        <button type="button" role="tab" class="cat-tab on" id="stab-film" aria-selected="true" aria-controls="view-film" data-v="film">Film</button>
+        <button type="button" role="tab" class="cat-tab" id="stab-scores" aria-selected="false" aria-controls="view-scores" data-v="scores">Scores</button>
+      </h1>
+      <div class="cat-descs" aria-live="polite">
+        <p class="cat-intro on" data-v="film">Some of my best scores, from film to campaigns. Take your time, browse through, and press play on whatever catches your ear.</p>
+        <p class="cat-intro" data-v="scores">A selection of standalone tracks from my catalogue. Press play and let it run.</p>
+      </div>
     </div>
+    <div id="view-film" role="tabpanel" aria-labelledby="stab-film">
     <div class="rail-outer">
       <div class="rail-wrap">
         <div class="rail" id="rail" tabindex="0" role="listbox" aria-label="Choose a project"></div>
@@ -59,6 +66,17 @@
           <span class="pl-time" id="ctime">0:00</span>
         </div>
         <ol class="tracks" id="ctracks"></ol>
+      </div>
+    </div>
+    </div>
+    <div id="view-scores" class="sc-view" role="tabpanel" aria-labelledby="stab-scores" hidden>
+      <div class="cd-player sc-player">
+        <div class="pl">
+          <button class="pbtn" id="splay" type="button" aria-label="Play"><i class="pico" aria-hidden="true"></i></button>
+          <input id="sseek" type="range" min="0" max="1000" value="0" aria-label="Seek" disabled>
+          <span class="pl-time" id="stime">0:00</span>
+        </div>
+        <ol class="tracks" id="stracks"></ol>
       </div>
     </div>
   </section>

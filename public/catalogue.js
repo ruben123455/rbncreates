@@ -226,6 +226,7 @@
     if (current < 0) { var k = PROJECTS[active].tracks.findIndex(function (t) { return t.src; }); if (k >= 0) playTrack(k); }
     else if (audio.paused) audio.play(); else audio.pause();
   });
+  document.addEventListener('scores:tab', function () { audio.pause(); });
   audio.addEventListener('play', function () { setPlaying(true); });
   audio.addEventListener('pause', function () { setPlaying(false); });
   audio.addEventListener('ended', function () {
@@ -289,4 +290,72 @@
   window.addEventListener('resize', onScroll);
   new MutationObserver(onScroll).observe(det, { childList: true, subtree: true });
   update();
+})();
+
+
+/* scores page: Film / Scores switch + the standalone tracks player.
+   Add real tracks by filling in src (and duration) in SCORE_TRACKS below. */
+(function () {
+  var SCORE_TRACKS = [
+    { title: 'Placeholder track 01', duration: '', src: '' },
+    { title: 'Placeholder track 02', duration: '', src: '' },
+    { title: 'Placeholder track 03', duration: '', src: '' },
+    { title: 'Placeholder track 04', duration: '', src: '' },
+    { title: 'Placeholder track 05', duration: '', src: '' },
+    { title: 'Placeholder track 06', duration: '', src: '' },
+    { title: 'Placeholder track 07', duration: '', src: '' },
+    { title: 'Placeholder track 08', duration: '', src: '' }
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  var a = new Audio(); a.preload = 'none';
+  var cur = -1, ol = $('stracks'); if (!ol) return;
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function fmt(s) { s = Math.floor(s || 0); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  SCORE_TRACKS.forEach(function (t, k) {
+    var li = document.createElement('li'), b = document.createElement('button');
+    b.type = 'button'; b.className = 'trk';
+    b.innerHTML = '<span class="tn"></span><span class="tt"></span><span class="td"></span>';
+    b.children[0].textContent = pad(k + 1); b.children[1].textContent = t.title; b.children[2].textContent = t.duration || '';
+    b.addEventListener('click', function () { play(k); });
+    li.appendChild(b); ol.appendChild(li);
+  });
+  var any = SCORE_TRACKS.some(function (t) { return t.src; });
+  function setOn(on) {
+    $('splay').classList.toggle('on', on); $('splay').setAttribute('aria-label', on ? 'Pause' : 'Play');
+    Array.prototype.forEach.call(ol.querySelectorAll('.trk'), function (b, k) { b.classList.toggle('playing', on && k === cur); });
+  }
+  function play(k) {
+    var t = SCORE_TRACKS[k]; if (!t || !t.src) return;
+    if (cur === k && !a.paused) { a.pause(); return; }
+    if (cur !== k) { a.src = t.src; cur = k; $('sseek').disabled = false; }
+    a.play();
+  }
+  $('splay').addEventListener('click', function () {
+    if (cur < 0) { var k = SCORE_TRACKS.findIndex(function (t) { return t.src; }); if (k >= 0) play(k); }
+    else if (a.paused) a.play(); else a.pause();
+  });
+  a.addEventListener('play', function () { setOn(true); document.dispatchEvent(new Event('scores:play')); });
+  a.addEventListener('pause', function () { setOn(false); });
+  a.addEventListener('ended', function () { var n = cur + 1; if (SCORE_TRACKS[n] && SCORE_TRACKS[n].src) play(n); else setOn(false); });
+  a.addEventListener('timeupdate', function () {
+    if (a.duration) { $('sseek').value = Math.round(a.currentTime / a.duration * 1000); $('sseek').style.setProperty('--p', (a.currentTime / a.duration * 100).toFixed(2) + '%'); }
+    $('stime').textContent = fmt(a.currentTime);
+  });
+  $('sseek').addEventListener('input', function () { if (a.duration) { a.currentTime = a.duration * this.value / 1000; this.style.setProperty('--p', (this.value / 10) + '%'); } });
+
+  /* tab switch */
+  var tabs = document.querySelectorAll('.cat-tab');
+  Array.prototype.forEach.call(tabs, function (b) {
+    b.addEventListener('click', function () {
+      var v = b.getAttribute('data-v');
+      Array.prototype.forEach.call(tabs, function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
+      Array.prototype.forEach.call(document.querySelectorAll('.cat-descs p'), function (p) { p.classList.toggle('on', p.getAttribute('data-v') === v); });
+      $('view-film').hidden = v !== 'film';
+      $('view-scores').hidden = v !== 'scores';
+      document.body.classList.toggle('is-scores', v === 'scores');
+      a.pause(); document.dispatchEvent(new Event('scores:tab'));
+      window.scrollTo(0, 0);
+      requestAnimationFrame(function () { window.dispatchEvent(new Event('resize')); });
+    });
+  });
 })();
