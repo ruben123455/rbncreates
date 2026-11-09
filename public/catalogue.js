@@ -35,6 +35,7 @@
     },
     {
       id: 'rotterdam',
+      bg: 'scene-rotterdam.jpg',
       poster: 'poster-new.jpg',
       alt: 'Still from Scattered & Confused: a woman with her eyes closed in front of a mirrored building',
       title: 'Scattered & Confused',
