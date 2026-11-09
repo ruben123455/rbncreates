@@ -22,7 +22,7 @@
   <a class="big" href="about.html" style="--img:url(menu4.jpg)"><span>About</span></a>
   <a class="big" href="contact.html" style="--img:url(menu5.jpg)"><span>Contact</span></a>
 </nav>
-<main id="top" class="st-page">
+<main id="top" class="st-page sl">
   <div class="scorebg" id="scorebg" aria-hidden="true"></div>
   <div class="topvid" aria-hidden="true"><video src="bg.mp4" poster="poster.jpg" autoplay muted loop playsinline preload="auto"></video></div>
   <section class="st" id="catalogue" aria-label="Scores">
@@ -35,44 +35,27 @@
       <p data-v="scores">Standalone tracks from my catalogue. Press play and let it run.</p>
     </div>
 
-    <div id="view-film" role="tabpanel" aria-labelledby="stab-film">
-      <div class="st-main" id="cdetail">
-        <figure class="st-poster" id="spost"><img id="spimg" src="" alt="" draggable="false"></figure>
-        <div class="st-info">
+    <div id="view-film" class="sl-film" role="tabpanel" aria-labelledby="stab-film">
+      <div class="sl-slide" id="cdetail">
+        <div class="sl-copy">
           <p class="label" id="ckind"></p>
           <h2 id="ctitle"></h2>
           <p class="cd-meta" id="cmeta"></p>
-          <p class="st-text" id="ctext"></p>
-          <div class="st-seg" id="sseg" role="tablist" aria-label="Project details">
-            <button type="button" role="tab" data-p="watch">Watch</button>
-            <button type="button" role="tab" data-p="story">Story</button>
-            <button type="button" role="tab" data-p="listen">Listen</button>
-          </div>
-          <div class="st-panel" id="spanel">
-            <div class="st-pane st-watch" data-p="watch">
-              <div class="vframe"><iframe id="cframe" title="Watch the film" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-              <a class="yt" id="cwatch" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
-            </div>
-            <div class="st-pane st-story" data-p="story"><div id="cnote"></div></div>
-            <div class="st-pane" data-p="listen">
-              <div class="cd-player">
-                <div class="pl">
-                  <button class="pbtn" id="cplay" type="button" disabled aria-label="Play"><i class="pico" aria-hidden="true"></i></button>
-                  <input id="cseek" type="range" min="0" max="1000" value="0" aria-label="Seek" disabled>
-                  <span class="pl-time" id="ctime">0:00</span>
-                </div>
-                <ol class="tracks" id="ctracks"></ol>
-              </div>
-            </div>
+          <p class="sl-text" id="ctext"></p>
+          <div class="sl-actions" id="sseg">
+            <button type="button" class="sl-btn primary" data-p="watch">Watch film</button>
+            <button type="button" class="sl-btn" data-p="story">Read the story</button>
+            <button type="button" class="sl-btn" data-p="listen">Listen</button>
           </div>
         </div>
+        <figure class="sl-poster" id="spost"><img id="spimg" src="" alt="" draggable="false"></figure>
       </div>
-      <div class="st-strip">
+      <div class="sl-nav">
         <button class="br arrow st-arr" id="cprev" type="button" aria-label="Previous project"><img src="arrow.png" alt="" draggable="false"></button>
-        <div class="st-thumbs" id="rail" role="listbox" aria-label="Choose a project"></div>
+        <div class="sl-dots" id="rail" role="listbox" aria-label="Choose a project"></div>
+        <span class="sl-count" id="ccount" aria-hidden="true"></span>
         <button class="br arrow st-arr next" id="cnext" type="button" aria-label="Next project"><img src="arrow.png" alt="" draggable="false"></button>
       </div>
-      <span id="ccount" hidden></span>
     </div>
 
     <div id="view-scores" class="sc-view" role="tabpanel" aria-labelledby="stab-scores" hidden>
@@ -87,6 +70,28 @@
     </div>
   </section>
 </main>
+  <div class="sl-sheet" id="ssheet" role="dialog" aria-modal="true" aria-label="Project details" hidden>
+    <button type="button" class="br sl-close" id="sclose"><span>Close</span></button>
+    <div class="sl-sheet-in">
+      <p class="label sl-head" id="sshead"></p>
+      <div class="sl-pane" data-p="watch">
+        <div class="vframe"><iframe id="cframe" title="Watch the film" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+        <a class="yt" id="cwatch" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
+      </div>
+      <div class="sl-pane sl-story" data-p="story"><div id="cnote"></div></div>
+      <div class="sl-pane" data-p="listen">
+        <div class="cd-player">
+          <div class="pl">
+            <button class="pbtn" id="cplay" type="button" disabled aria-label="Play"><i class="pico" aria-hidden="true"></i></button>
+            <input id="cseek" type="range" min="0" max="1000" value="0" aria-label="Seek" disabled>
+            <span class="pl-time" id="ctime">0:00</span>
+          </div>
+          <ol class="tracks" id="ctracks"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <footer>
   <span>&copy; 2026 Ruben Camacho &middot; rbncreates.com</span>
   <a href="index.html">Home</a>
