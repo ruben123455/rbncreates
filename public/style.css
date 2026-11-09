@@ -1147,3 +1147,13 @@ body.sl-lock { overflow: hidden; }
 @media (max-width: 860px) {
   .sl-fob.left .sl-pull { left: 8px; right: auto; }
 }
+
+/* scores slideshow: title cap-height lines up with the top of the poster */
+.sl-slide { align-items: start; align-content: center; }
+.sl-copy { gap: 14px; }
+.sl-copy h2 { order: 1; margin-top: -0.14em; }
+.sl-copy .label { order: 2; }
+.sl-copy .cd-meta { order: 3; }
+.sl-copy .sl-text { order: 4; }
+.sl-copy .sl-actions { order: 5; }
+@media (max-width: 860px) { .sl-slide { align-items: center; } .sl-copy h2 { margin-top: 0; } }
