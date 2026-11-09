@@ -22,53 +22,59 @@
   <a class="big" href="about.html" style="--img:url(menu4.jpg)"><span>About</span></a>
   <a class="big" href="contact.html" style="--img:url(menu5.jpg)"><span>Contact</span></a>
 </nav>
-<main id="top">
-  <div class="topvid" aria-hidden="true"><video src="bg.mp4" poster="poster.jpg" autoplay muted loop playsinline preload="auto"></video></div>
+<main id="top" class="st-page">
   <div class="scorebg" id="scorebg" aria-hidden="true"></div>
-  <section class="catalogue" id="catalogue" aria-label="Scores catalogue">
-    <div class="cat-head" id="chead">
-      <h1 class="cat-title cat-tabs" role="tablist" aria-label="Browse by type">
-        <button type="button" role="tab" class="cat-tab on" id="stab-film" aria-selected="true" aria-controls="view-film" data-v="film">Film</button>
-        <button type="button" role="tab" class="cat-tab" id="stab-scores" aria-selected="false" aria-controls="view-scores" data-v="scores">Scores</button>
-      </h1>
-      <div class="cat-descs" aria-live="polite">
-        <p class="cat-intro on" data-v="film">Some of my best scores, from film to campaigns. Take your time, browse through, and press play on whatever catches your ear.</p>
-        <p class="cat-intro" data-v="scores">A selection of standalone tracks from my catalogue. Press play and let it run.</p>
-      </div>
+  <div class="topvid" aria-hidden="true"><video src="bg.mp4" poster="poster.jpg" autoplay muted loop playsinline preload="auto"></video></div>
+  <section class="st" id="catalogue" aria-label="Scores">
+    <h1 class="st-tabs" role="tablist" aria-label="Browse by type">
+      <button type="button" role="tab" class="st-tab on" id="stab-film" aria-selected="true" aria-controls="view-film" data-v="film">Film</button>
+      <button type="button" role="tab" class="st-tab" id="stab-scores" aria-selected="false" aria-controls="view-scores" data-v="scores">Scores</button>
+    </h1>
+    <div class="st-intros" aria-live="polite">
+      <p class="on" data-v="film">Pick a project, then watch, read the story or listen.</p>
+      <p data-v="scores">Standalone tracks from my catalogue. Press play and let it run.</p>
     </div>
+
     <div id="view-film" role="tabpanel" aria-labelledby="stab-film">
-    <div class="rail-outer">
-      <div class="rail-wrap">
-        <div class="rail" id="rail" tabindex="0" role="listbox" aria-label="Choose a project"></div>
+      <div class="st-main" id="cdetail">
+        <figure class="st-poster" id="spost"><img id="spimg" src="" alt="" draggable="false"></figure>
+        <div class="st-info">
+          <p class="label" id="ckind"></p>
+          <h2 id="ctitle"></h2>
+          <p class="cd-meta" id="cmeta"></p>
+          <p class="st-text" id="ctext"></p>
+          <div class="st-seg" id="sseg" role="tablist" aria-label="Project details">
+            <button type="button" role="tab" data-p="watch">Watch</button>
+            <button type="button" role="tab" data-p="story">Story</button>
+            <button type="button" role="tab" data-p="listen">Listen</button>
+          </div>
+          <div class="st-panel" id="spanel">
+            <div class="st-pane st-watch" data-p="watch">
+              <div class="vframe"><iframe id="cframe" title="Watch the film" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+              <a class="yt" id="cwatch" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
+            </div>
+            <div class="st-pane st-story" data-p="story"><div id="cnote"></div></div>
+            <div class="st-pane" data-p="listen">
+              <div class="cd-player">
+                <div class="pl">
+                  <button class="pbtn" id="cplay" type="button" disabled aria-label="Play"><i class="pico" aria-hidden="true"></i></button>
+                  <input id="cseek" type="range" min="0" max="1000" value="0" aria-label="Seek" disabled>
+                  <span class="pl-time" id="ctime">0:00</span>
+                </div>
+                <ol class="tracks" id="ctracks"></ol>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <button class="br arrow prev" id="cprev" type="button" aria-label="Previous project"><img src="arrow.png" alt="" draggable="false"></button>
-      <button class="br arrow next" id="cnext" type="button" aria-label="Next project"><img src="arrow.png" alt="" draggable="false"></button>
+      <div class="st-strip">
+        <button class="br arrow st-arr" id="cprev" type="button" aria-label="Previous project"><img src="arrow.png" alt="" draggable="false"></button>
+        <div class="st-thumbs" id="rail" role="listbox" aria-label="Choose a project"></div>
+        <button class="br arrow st-arr next" id="cnext" type="button" aria-label="Next project"><img src="arrow.png" alt="" draggable="false"></button>
+      </div>
       <span id="ccount" hidden></span>
     </div>
-    <div class="scrollcue" id="scue" aria-hidden="true"><span>Scroll down</span></div>
-    <div class="cat-detail" id="cdetail" aria-live="polite">
-      <div class="cd-info">
-        <p class="label" id="ckind"></p>
-        <h2 id="ctitle"></h2>
-        <p class="cd-meta" id="cmeta"></p>
-        <p class="cd-text" id="ctext"></p>
-      </div>
-      <div class="cd-video" id="cvideo" hidden>
-        <div class="vframe"><iframe id="cframe" title="Watch the film" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-        <a class="yt" id="cwatch" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
-      </div>
-      <p class="cd-note" id="cnote" hidden></p>
-      <div class="cd-player">
-        <p class="cd-ptitle">A few snippets from the soundtrack</p>
-        <div class="pl">
-          <button class="pbtn" id="cplay" type="button" disabled aria-label="Play"><i class="pico" aria-hidden="true"></i></button>
-          <input id="cseek" type="range" min="0" max="1000" value="0" aria-label="Seek" disabled>
-          <span class="pl-time" id="ctime">0:00</span>
-        </div>
-        <ol class="tracks" id="ctracks"></ol>
-      </div>
-    </div>
-    </div>
+
     <div id="view-scores" class="sc-view" role="tabpanel" aria-labelledby="stab-scores" hidden>
       <div class="cd-player sc-player">
         <div class="pl">
@@ -80,7 +86,6 @@
       </div>
     </div>
   </section>
-
 </main>
 <footer>
   <span>&copy; 2026 Ruben Camacho &middot; rbncreates.com</span>

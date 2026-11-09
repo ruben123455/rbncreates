@@ -1,4 +1,4 @@
-/* Scores catalogue: poster rail you pan left and right, with the chosen project's player and singles below.
+/* Scores page: one cinematic stage. Pick a project in the strip; its poster, story, video and singles all live in the same view.
    To add a project, add an entry to PROJECTS. Each track needs a title and, once you have the file, a src (mp3) and optional duration text. */
 (function () {
   var PROJECTS = [
@@ -61,143 +61,72 @@
 
   var root = document.getElementById('catalogue');
   if (!root) return;
-  var rail = document.getElementById('rail');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (id) { return document.getElementById(id); };
-  var items = [], active = -1, audio = new Audio(), current = -1;
+  var thumbs = $('rail'), main = $('cdetail'), seg = $('sseg');
+  var active = -1, pane = '', audio = new Audio(), current = -1, ytSrc = '';
   audio.preload = 'none';
-  var N = PROJECTS.length;
+  var N = PROJECTS.length, btns = [];
+  function pad(n) { return ('0' + n).slice(-2); }
+  function fmt(t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
 
   PROJECTS.forEach(function (p, i) {
     var b = document.createElement('button');
-    b.type = 'button'; b.className = 'poster' + (p.teaser ? ' teaser' : ''); b.setAttribute('role', 'option');
-    var img = document.createElement('img');
-    img.src = p.poster; img.alt = p.alt; img.draggable = false;
-    var cap = document.createElement('span'); cap.className = 'pcap'; cap.textContent = p.title;
-    b.appendChild(img); b.appendChild(cap); rail.appendChild(b); items.push(b);
-    b.addEventListener('click', function () { if (!moved) setTarget(i); });
+    b.type = 'button'; b.className = 'st-thumb' + (p.teaser ? ' teaser' : ''); b.setAttribute('role', 'option');
+    b.setAttribute('aria-label', p.title);
+    var img = document.createElement('img'); img.src = p.poster; img.alt = ''; img.draggable = false;
+    b.appendChild(img); thumbs.appendChild(b); btns.push(b);
+    b.addEventListener('click', function () { select(i); });
   });
-  var soon = document.createElement('div');
-  soon.className = 'poster soon'; soon.setAttribute('aria-hidden', 'true');
-  soon.innerHTML = '<span>More<br>soon</span>';
-  rail.appendChild(soon); items.push(soon);
 
-  /* motion: pos is the (fractional) index in the middle of the rail and eases toward target */
-  var pos = 0, target = 0, raf = 0, last = 0, dragging = false, moved = false;
-  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
-
-  function render() {
-    var w = items[0].offsetWidth;
-    items.forEach(function (it, i) {
-      var d = i - pos, ad = Math.abs(d), sg = d < 0 ? -1 : 1, t = Math.min(ad, 1);
-      var ease = t * t * (3 - 2 * t);
-      var x = sg * (ease * w * 0.98 + Math.max(ad - 1, 0) * w * 0.5);
-      var rot = -sg * (ease * 50 + Math.min(Math.max(ad - 1, 0), 1) * 8);
-      var s = 1 - 0.1 * Math.min(ad, 2);
-      it.style.transformOrigin = (50 - sg * 50 * ease).toFixed(1) + '% 50%';
-      it.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0) rotateY(' + rot.toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
-      it.style.opacity = (1 - 0.3 * Math.min(ad, 2.4) + (ad > 2.4 ? 0 : 0)).toFixed(3);
-      it.style.zIndex = String(100 - Math.round(ad * 10));
-      it.style.setProperty('--dim', (0.55 * ease).toFixed(3));
-    });
+  function panesFor(p) {
+    var a = [];
+    if (p.video) a.push('watch');
+    if (p.note) a.push('story');
+    if (p.tracks && p.tracks.length) a.push('listen');
+    return a;
   }
-  function frame(now) {
-    var dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now;
-    if (!dragging) pos += (target - pos) * (1 - Math.exp(-dt * (reduce ? 60 : 8)));
-    render();
-    if (dragging || Math.abs(target - pos) > 0.0008) raf = requestAnimationFrame(frame);
-    else { pos = target; render(); raf = 0; }
+  function frameFor(p) {
+    var yt = (p.video || '').match(/(?:youtu\.be\/|v=)([\w-]{11})/);
+    var vm = (p.video || '').match(/vimeo\.com\/(\d+)(?:\/(\w+))?/);
+    if (yt) return { src: 'https://www.youtube-nocookie.com/embed/' + yt[1] + '?rel=0', href: 'https://youtu.be/' + yt[1], label: 'Watch on YouTube' };
+    if (vm) return { src: 'https://player.vimeo.com/video/' + vm[1] + (vm[2] ? '?h=' + vm[2] : ''), href: p.video, label: 'Watch on Vimeo' };
+    return null;
   }
-  function kick() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
-  function setTarget(i) {
-    target = clamp(Math.round(i), 0, N - 1);
-    select(target); kick();
+  function showPane(name) {
+    pane = name;
+    Array.prototype.forEach.call(seg.children, function (b) { var on = b.getAttribute('data-p') === name; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+    Array.prototype.forEach.call(document.querySelectorAll('#spanel .st-pane'), function (el) { el.classList.toggle('on', el.getAttribute('data-p') === name); });
+    var f = frameFor(PROJECTS[active]);
+    var want = name === 'watch' && f ? f.src : '';
+    if (want !== ytSrc) { ytSrc = want; $('cframe').src = want || 'about:blank'; }
+    if (name !== 'listen') { audio.pause(); }
   }
+  Array.prototype.forEach.call(seg.children, function (b) { b.addEventListener('click', function () { showPane(b.getAttribute('data-p')); }); });
 
-  /* drag or swipe */
-  var sx = 0, spos = 0, vx = 0, lx = 0, lt = 0;
-  function spacing() { return items[0].offsetWidth * 0.98; }
-  rail.addEventListener('pointerdown', function (e) {
-    if (e.pointerType === 'mouse' && e.button !== 0) return;
-    dragging = true; moved = false; sx = lx = e.clientX; spos = pos; vx = 0; lt = performance.now();
-    rail.classList.add('drag'); rail.setPointerCapture(e.pointerId); kick();
-  });
-  rail.addEventListener('pointermove', function (e) {
-    if (!dragging) return;
-    var dx = e.clientX - sx;
-    if (Math.abs(dx) > 5) moved = true;
-    var now = performance.now(), dtm = Math.max(1, now - lt);
-    vx = 0.8 * vx + 0.2 * ((e.clientX - lx) / dtm); lx = e.clientX; lt = now;
-    var p = spos - dx / spacing();
-    pos = p < 0 ? p * 0.35 : p > N - 1 ? (N - 1) + (p - (N - 1)) * 0.35 : p;
-    target = pos;
-  });
-  function release() {
-    if (!dragging) return;
-    dragging = false; rail.classList.remove('drag');
-    var proj = pos - vx * 220 / spacing();
-    setTarget(Math.round(clamp(proj, pos - 1, pos + 1)));
-    setTimeout(function () { moved = false; }, 0);
-  }
-  rail.addEventListener('pointerup', release);
-  rail.addEventListener('pointercancel', release);
-
-  /* trackpad sideways scroll */
-  var wheelLock = 0;
-  rail.addEventListener('wheel', function (e) {
-    var dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
-    if (!dx) return;
-    e.preventDefault();
-    var now = performance.now();
-    if (now - wheelLock < 320 || Math.abs(dx) < 6) return;
-    wheelLock = now; setTarget(target + (dx > 0 ? 1 : -1));
-  }, { passive: false });
-
-  rail.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowRight') { e.preventDefault(); setTarget(target + 1); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); setTarget(target - 1); }
-  });
-  $('cprev').addEventListener('click', function () { setTarget(target - 1); });
-  $('cnext').addEventListener('click', function () { setTarget(target + 1); });
-
-  function fmt(t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
-  function pad(n) { return ('0' + n).slice(-2); }
-
-  function select(i) {
+  function select(i, instant) {
+    i = Math.max(0, Math.min(N - 1, i));
     if (i === active) return;
     active = i;
     var p = PROJECTS[i];
-    items.forEach(function (it, k) { it.classList.toggle('on', k === i); it.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
-    $('ccount').textContent = pad(i + 1) + ' / ' + pad(PROJECTS.length);
-    $('cprev').disabled = i === 0; $('cnext').disabled = i === PROJECTS.length - 1;
-    var d = $('cdetail');
-    d.classList.add('swap');
+    btns.forEach(function (it, k) { it.classList.toggle('on', k === i); it.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+    $('cprev').disabled = i === 0; $('cnext').disabled = i === N - 1;
     var sb = $('scorebg'); if (sb) { if (p.bg) { sb.style.backgroundImage = 'url(' + p.bg + ')'; } sb.classList.toggle('on', !!p.bg); }
+    main.classList.add('swap');
     setTimeout(function () {
       audio.pause(); current = -1; setPlaying(false);
-      $('ckind').textContent = p.kind || '';
+      var im = $('spimg'); im.src = p.poster; im.alt = p.alt || p.title;
+      $('spost').classList.toggle('teaser', !!p.teaser);
+      $('ckind').textContent = p.kind || ''; $('ckind').hidden = !p.kind;
       $('ctitle').textContent = p.title;
-      $('cmeta').textContent = p.meta || '';
-      $('cmeta').hidden = !p.meta;
+      $('cmeta').textContent = p.meta || ''; $('cmeta').hidden = !p.meta;
       $('ctext').textContent = p.text || '';
-      var yt = (p.video || '').match(/(?:youtu\.be\/|v=)([\w-]{11})/);
-      var vm = (p.video || '').match(/vimeo\.com\/(\d+)(?:\/(\w+))?/);
-      var vid = yt || vm;
-      $('cvideo').hidden = !vid;
+      var f = frameFor(p);
+      if (f) { $('cwatch').href = f.href; $('cwatch').textContent = f.label; }
       var nt = $('cnote'); nt.innerHTML = '';
-      (p.note || '').split(/\n\n+/).forEach(function (para) { if (!para) return; var sp = document.createElement('span'); sp.className = 'np'; sp.textContent = para; nt.appendChild(sp); });
-      nt.hidden = !p.note;
-      $('cframe').src = yt ? 'https://www.youtube-nocookie.com/embed/' + yt[1] + '?rel=0'
-        : vm ? 'https://player.vimeo.com/video/' + vm[1] + (vm[2] ? '?h=' + vm[2] : '')
-        : 'about:blank';
-      if (yt) { $('cwatch').href = 'https://youtu.be/' + yt[1]; $('cwatch').textContent = 'Watch on YouTube'; }
-      else if (vm) { $('cwatch').href = p.video; $('cwatch').textContent = 'Watch on Vimeo'; }
-      var pl = document.querySelector('.cd-player'); if (pl) pl.hidden = !p.tracks.length;
+      (p.note || '').split(/\n\n+/).forEach(function (para) { if (!para) return; var sp = document.createElement('p'); sp.textContent = para; nt.appendChild(sp); });
       var ol = $('ctracks'); ol.innerHTML = '';
-      if (!p.tracks.length) {
-        var li = document.createElement('li'); li.className = 'empty'; li.textContent = 'Singles for this project are coming soon.'; ol.appendChild(li);
-      }
-      p.tracks.forEach(function (t, k) {
+      (p.tracks || []).forEach(function (t, k) {
         var li = document.createElement('li');
         var b = document.createElement('button'); b.type = 'button'; b.className = 'trk';
         b.innerHTML = '<span class="tn"></span><span class="tt"></span><span class="td"></span>';
@@ -206,10 +135,16 @@
         b.addEventListener('click', function () { playTrack(k); });
         li.appendChild(b); ol.appendChild(li);
       });
-      var first = p.tracks.some(function (t) { return t.src; });
+      var first = (p.tracks || []).some(function (t) { return t.src; });
       $('cplay').disabled = !first; $('cseek').disabled = !first; $('cseek').value = 0; $('cseek').style.setProperty('--p', '0%'); $('ctime').textContent = '0:00';
-      d.classList.remove('swap');
-    }, reduce ? 0 : 160);
+      var avail = panesFor(p);
+      Array.prototype.forEach.call(seg.children, function (b) { b.hidden = avail.indexOf(b.getAttribute('data-p')) < 0; });
+      seg.hidden = avail.length < 2;
+      $('spanel').hidden = !avail.length;
+      ytSrc = '~';
+      if (avail.length) showPane(avail.indexOf(pane) >= 0 && pane !== 'listen' ? pane : avail[0]); else { $('cframe').src = 'about:blank'; ytSrc = ''; }
+      main.classList.remove('swap');
+    }, (reduce || instant) ? 0 : 180);
   }
 
   function setPlaying(on) {
@@ -227,7 +162,6 @@
     if (current < 0) { var k = PROJECTS[active].tracks.findIndex(function (t) { return t.src; }); if (k >= 0) playTrack(k); }
     else if (audio.paused) audio.play(); else audio.pause();
   });
-  document.addEventListener('scores:tab', function () { audio.pause(); });
   audio.addEventListener('play', function () { setPlaying(true); });
   audio.addEventListener('pause', function () { setPlaying(false); });
   audio.addEventListener('ended', function () {
@@ -240,59 +174,29 @@
     $('ctime').textContent = fmt(audio.currentTime);
   });
   $('cseek').addEventListener('input', function () { if (audio.duration) { audio.currentTime = audio.duration * this.value / 1000; this.style.setProperty('--p', (this.value / 10) + '%'); } });
+  document.addEventListener('scores:tab', function () {
+    audio.pause();
+    if ($('view-film').hidden) { ytSrc = ''; $('cframe').src = 'about:blank'; }
+    else if (pane) showPane(pane);
+  });
 
-  window.addEventListener('resize', function () { render(); });
-  render(); select(0);
+  $('cprev').addEventListener('click', function () { select(active - 1); });
+  $('cnext').addEventListener('click', function () { select(active + 1); });
+  document.addEventListener('keydown', function (e) {
+    if ($('view-film').hidden) return;
+    var t = e.target; if (t && (t.tagName === 'INPUT' || t.tagName === 'IFRAME')) return;
+    if (e.key === 'ArrowRight') select(active + 1);
+    if (e.key === 'ArrowLeft') select(active - 1);
+  });
+  /* swipe the poster */
+  var sx = null;
+  var post = $('spost');
+  post.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+  post.addEventListener('pointerup', function (e) { if (sx === null) return; var dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) select(active + (dx < 0 ? 1 : -1)); });
+  post.addEventListener('pointercancel', function () { sx = null; });
+
+  select(0, true);
 })();
-
-/* scores header: blurs and fades as the page scrolls down */
-(function () {
-  var head = document.getElementById('chead'); if (!head) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var ticking = false;
-  function update() {
-    ticking = false;
-    var p = Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * 0.4)));
-    head.style.filter = p < 0.01 ? '' : 'blur(' + (p * 14).toFixed(2) + 'px)';
-    head.style.opacity = p < 0.01 ? '' : String((1 - p * 0.9).toFixed(3));
-  }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  update();
-})();
-
-/* scores: hide the scroll cue the moment the page starts to move */
-(function () {
-  var cue = document.getElementById('scue'); if (!cue) return;
-  function check() { cue.classList.toggle('gone', window.scrollY > 2); }
-  window.addEventListener('scroll', check, { passive: true });
-  check();
-})();
-
-/* scores: only the title block (title, meta, summary) comes into focus as it scrolls up into view; everything below stays sharp */
-(function () {
-  var det = document.getElementById('cdetail'); if (!det) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var SEL = '.cd-info';
-  var ticking = false;
-  function update() {
-    ticking = false;
-    var vh = window.innerHeight;
-    Array.prototype.forEach.call(det.querySelectorAll(SEL), function (el) {
-      var r = el.getBoundingClientRect(); if (!r.height) return;
-      var p = Math.max(0, Math.min(1, (r.top - vh * 0.62) / (vh * 0.3)));
-      el.style.filter = p < 0.01 ? '' : 'blur(' + (p * 10).toFixed(2) + 'px)';
-      el.style.opacity = p < 0.01 ? '' : String((1 - p * 0.6).toFixed(3));
-    });
-  }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  new MutationObserver(onScroll).observe(det, { childList: true, subtree: true });
-  update();
-})();
-
 
 /* scores page: Film / Scores switch + the standalone tracks player.
    Add real tracks by filling in src (and duration) in SCORE_TRACKS below. */
@@ -345,12 +249,12 @@
   $('sseek').addEventListener('input', function () { if (a.duration) { a.currentTime = a.duration * this.value / 1000; this.style.setProperty('--p', (this.value / 10) + '%'); } });
 
   /* tab switch */
-  var tabs = document.querySelectorAll('.cat-tab');
+  var tabs = document.querySelectorAll('.st-tab');
   Array.prototype.forEach.call(tabs, function (b) {
     b.addEventListener('click', function () {
       var v = b.getAttribute('data-v');
       Array.prototype.forEach.call(tabs, function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
-      Array.prototype.forEach.call(document.querySelectorAll('.cat-descs p'), function (p) { p.classList.toggle('on', p.getAttribute('data-v') === v); });
+      Array.prototype.forEach.call(document.querySelectorAll('.st-intros p'), function (p) { p.classList.toggle('on', p.getAttribute('data-v') === v); });
       $('view-film').hidden = v !== 'film';
       $('view-scores').hidden = v !== 'scores';
       document.body.classList.toggle('is-scores', v === 'scores');
