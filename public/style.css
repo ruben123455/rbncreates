@@ -1132,3 +1132,18 @@ body.sl-lock { overflow: hidden; }
   .sl-pull { width: 4px; height: 96px; top: -48px; right: 8px; }
   .sl-fobcount { top: 58px; right: 4px; }
 }
+
+/* pull pills v3: one on each side, only where there is somewhere to go; no counter */
+.sl-fob { transition: opacity 0.4s ease; }
+.sl-fob.off { opacity: 0; pointer-events: none; }
+.sl-fob.off .sl-pull { animation: none; }
+.sl-fobcount { display: none; }
+.sl-fob.left { right: auto; left: 0; }
+.sl-fob.left .sl-pull { right: auto; left: 14px; transform-origin: left center; }
+.sl-fob.left .sl-pull::before { inset: -16px -34px -16px -22px; }
+@keyframes fob-nudge-l { 0%, 70%, 100% { translate: 0 0; } 78% { translate: 10px 0; } 86% { translate: 0 0; } 92% { translate: 5px 0; } }
+.sl-fob.left .sl-pull { animation-name: fob-nudge-l; }
+.sl-film, .sl-slide { touch-action: pan-y; }
+@media (max-width: 860px) {
+  .sl-fob.left .sl-pull { left: 8px; right: auto; }
+}

@@ -129,7 +129,7 @@
     var dir = d || (i > active ? 1 : -1), first = active < 0;
     active = i;
     var p = PROJECTS[i], mine = ++seq;
-    $('ccount').textContent = pad(i + 1) + ' / ' + pad(N);
+    $('sfobL').classList.toggle('off', i === 0); $('sfobR').classList.toggle('off', i === N - 1);
     setBg(p);
     var parts = [root.querySelector('.sl-copy'), $('spost')];
     anims.forEach(function (a) { a.cancel(); }); anims = [];
@@ -199,7 +199,7 @@
   $('cseek').addEventListener('input', function () { if (audio.duration) { audio.currentTime = audio.duration * this.value / 1000; this.style.setProperty('--p', (this.value / 10) + '%'); } });
   document.addEventListener('scores:tab', function () { audio.pause(); closeSheet(); });
 
-  function go(d) { select((active + d + N) % N, false, d); }
+  function go(d) { var n = active + d; if (n < 0 || n >= N) return; select(n, false, d); }
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') { closeSheet(); return; }
     if ($('view-film').hidden || !sheet.hidden) return;
@@ -216,35 +216,47 @@
   });
   main.addEventListener('pointercancel', function () { sx = null; });
 
-  /* the pull fob on the right edge: drag it left to bring the next project in */
-  var fob = $('sfob'), cord = $('scord'), pull = $('spull');
-  var fx = 0, dragging = false, armed = false, moved = 0, LEN = 38, MAXP = 130, TRIG = 84;
-  function setPull(px) {
-    cord.style.width = (LEN + px) + 'px';
-    pull.style.transform = 'translateX(' + (-px) + 'px)' + (armed ? ' scaleX(1.9)' : '');
+  /* trackpad: two-finger sideways swipe */
+  var wlock = 0, wacc = 0, wt = 0;
+  main.addEventListener('wheel', function (e) {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    var now = performance.now();
+    if (now - wt > 200) wacc = 0; wt = now;
+    if (now < wlock) return;
+    wacc += e.deltaX;
+    if (Math.abs(wacc) > 60) { go(wacc > 0 ? 1 : -1); wacc = 0; wlock = now + 900; }
+  }, { passive: false });
+
+  /* pull pills on the edges: drag toward the middle to bring the next (right pill) or previous (left pill) project in */
+  function makePill(fob, dirSign) {
+    var pill = fob.querySelector('.sl-pull');
+    var fx = 0, dragging = false, armed = false, moved = 0, MAXP = 130, TRIG = 84;
+    function setPull(px) { pill.style.transform = 'translateX(' + (-dirSign * px) + 'px)' + (armed ? ' scaleX(1.9)' : ''); }
+    pill.addEventListener('pointerdown', function (e) {
+      dragging = true; armed = false; moved = 0; fx = e.clientX;
+      fob.classList.remove('rel'); fob.classList.add('drag');
+      pill.setPointerCapture(e.pointerId); e.preventDefault();
+    });
+    pill.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      var dx = Math.max(0, dirSign * (fx - e.clientX)); moved = Math.max(moved, dx);
+      var px = dx < MAXP ? dx : MAXP + (dx - MAXP) * 0.15;
+      armed = dx >= TRIG; fob.classList.toggle('armed', armed);
+      setPull(px);
+    });
+    function drop(trigger) {
+      if (!dragging) return;
+      dragging = false; fob.classList.remove('drag', 'armed'); fob.classList.add('rel');
+      var wasArmed = armed; armed = false; setPull(0);
+      if (trigger && (wasArmed || moved < 6)) go(dirSign);
+    }
+    pill.addEventListener('pointerup', function () { drop(true); });
+    pill.addEventListener('pointercancel', function () { drop(false); });
+    pill.addEventListener('click', function (e) { if (e.detail === 0) go(dirSign); });
   }
-  pull.addEventListener('pointerdown', function (e) {
-    dragging = true; armed = false; moved = 0; fx = e.clientX;
-    fob.classList.remove('rel'); fob.classList.add('drag');
-    pull.setPointerCapture(e.pointerId); e.preventDefault();
-  });
-  pull.addEventListener('pointermove', function (e) {
-    if (!dragging) return;
-    var dx = Math.max(0, fx - e.clientX); moved = Math.max(moved, dx);
-    var px = dx < MAXP ? dx : MAXP + (dx - MAXP) * 0.15;
-    armed = dx >= TRIG; fob.classList.toggle('armed', armed);
-    setPull(px);
-  });
-  function drop(trigger) {
-    if (!dragging) return;
-    dragging = false; fob.classList.remove('drag', 'armed'); fob.classList.add('rel');
-    var wasArmed = armed; armed = false; setPull(0);
-    if (trigger && (wasArmed || moved < 6)) go(1);
-  }
-  pull.addEventListener('pointerup', function () { drop(true); });
-  pull.addEventListener('pointercancel', function () { drop(false); });
-  pull.addEventListener('click', function (e) { if (e.detail === 0) go(1); });
-  setPull(0);
+  makePill($('sfobR'), 1);
+  makePill($('sfobL'), -1);
 
   select(0, true);
 })();
