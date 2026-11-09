@@ -200,15 +200,37 @@
   document.addEventListener('scores:tab', function () { audio.pause(); closeSheet(); });
 
   var busy = false;
-  /* past the last project: run back through them all to the start */
+  /* past the last project: the slide blurs once, the projects stream by underneath while it stays soft, then the first one comes back into focus */
   function rewind() {
     if (busy || active <= 0) return;
-    busy = true;
-    (function step() {
-      if (active <= 0) { busy = false; return; }
-      select(active - 1, false, -1, true);
-      setTimeout(step, 520);
-    })();
+    busy = true; seq++;
+    anims.forEach(function (x) { x.cancel(); }); anims = [];
+    var parts = [root.querySelector('.sl-copy'), $('spost')];
+    if (reduce || !parts[0].animate) { select(0, true); busy = false; return; }
+    var BLUR = 'blur(16px)', STEP = 105, OUT = 220, INN = 800;
+    var soft = { opacity: 0.6, transform: 'translateX(0px)', filter: BLUR };
+    var drift = { opacity: 0.6, transform: 'translateX(-46px)', filter: BLUR };
+    var hold = [];
+    parts.forEach(function (el) { hold.push(el.animate([{ opacity: 1, transform: 'none', filter: 'blur(0px)' }, soft], { duration: OUT, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' })); });
+    hold[0].finished.then(function () {
+      var n = active, total = n * STEP;
+      parts.forEach(function (el) { hold.push(el.animate([soft, drift], { duration: total + 40, easing: 'linear', fill: 'forwards' })); });
+      var k = n;
+      (function tick() {
+        k--;
+        var p = PROJECTS[k];
+        active = k; fill(p); setBg(p);
+        $('sfobL').classList.toggle('off', k === 0);
+        if (k > 0) { setTimeout(tick, STEP); return; }
+        setTimeout(function () {
+          hold.forEach(function (x) { x.cancel(); });
+          parts.forEach(function (el, j) {
+            anims.push(el.animate([{ opacity: 0.6, transform: 'translateX(-46px)', filter: BLUR }, { opacity: 1, transform: 'none', filter: 'blur(0px)' }], { duration: INN, delay: j * 90, easing: 'cubic-bezier(.16,.8,.2,1)', fill: 'backwards' }));
+          });
+          busy = false;
+        }, 40);
+      })();
+    });
   }
   function go(d) {
     if (busy) return;
