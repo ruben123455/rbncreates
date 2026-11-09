@@ -24,6 +24,7 @@
 </nav>
 <main id="top" class="st-page sl">
   <div class="scorebg" id="scorebg" aria-hidden="true"></div>
+  <div class="scorebg" id="scorebg2" aria-hidden="true"></div>
   <div class="topvid" aria-hidden="true"><video src="bg.mp4" poster="poster.jpg" autoplay muted loop playsinline preload="auto"></video></div>
   <section class="st" id="catalogue" aria-label="Scores">
     <h1 class="st-tabs" role="tablist" aria-label="Browse by type">
@@ -50,12 +51,10 @@
         </div>
         <figure class="sl-poster" id="spost"><img id="spimg" src="" alt="" draggable="false"></figure>
       </div>
-      <div class="sl-nav">
-        <button class="br arrow st-arr" id="cprev" type="button" aria-label="Previous project"><img src="arrow.png" alt="" draggable="false"></button>
-        <div class="sl-dots" id="rail" role="listbox" aria-label="Choose a project"></div>
-        <span class="sl-count" id="ccount" aria-hidden="true"></span>
-        <button class="br arrow st-arr next" id="cnext" type="button" aria-label="Next project"><img src="arrow.png" alt="" draggable="false"></button>
-      </div>
+      <nav class="sl-nav" aria-label="Projects">
+        <div class="sl-pick" id="rail" role="listbox" aria-label="Choose a project"></div>
+      </nav>
+      <span id="ccount" hidden></span>
     </div>
 
     <div id="view-scores" class="sc-view" role="tabpanel" aria-labelledby="stab-scores" hidden>

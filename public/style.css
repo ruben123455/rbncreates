@@ -1069,3 +1069,27 @@ body.sl-lock { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { .sl-slide, .sl-sheet, .sl-sheet-in { transition: none; } }
 .sl-close { color: #fff; font-size: clamp(15px, 2.1vw, 26px); font-weight: 300; text-shadow: 0 0 20px rgba(60, 80, 100, 0.3); cursor: pointer; }
+
+/* scores slideshow: project picker as film credits */
+.sl-nav { height: auto; padding: 0 0 clamp(18px, 3.4svh, 36px); justify-content: flex-start; }
+.sl-film { height: calc(100svh - clamp(74px, 9svh, 96px) - 64px); min-height: 560px; }
+.sl-pick { display: flex; gap: clamp(22px, 3.6vw, 56px); width: 100%; }
+.sl-pi { all: unset; box-sizing: border-box; position: relative; cursor: pointer; flex: 0 1 auto; min-width: clamp(96px, 12vw, 190px); padding-top: 16px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); text-transform: uppercase; color: rgba(255, 255, 255, 0.4); transition: color 0.4s ease; }
+.sl-pi::before, .sl-pi::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; }
+.sl-pi::before { background: rgba(255, 255, 255, 0.16); }
+.sl-pi::after { background: #fff; transform: scaleX(0); transform-origin: left; transition: transform 0.7s cubic-bezier(.16, .8, .2, 1); }
+.sl-pi.on::after { transform: scaleX(1); }
+.sl-pi:hover { color: rgba(255, 255, 255, 0.75); }
+.sl-pi.on { color: #fff; }
+.sl-pi .pn { font-size: 10px; letter-spacing: 0.26em; opacity: 0.8; }
+.sl-pi .pt { font-size: 12px; letter-spacing: 0.16em; line-height: 1.4; }
+.sl-pi:focus-visible { outline: 1px solid #fff; outline-offset: 6px; }
+@media (max-width: 860px) {
+  .sl-film { height: auto; }
+  .sl-nav { margin: 22px 0 36px; }
+  .sl-pick { gap: 14px; }
+  .sl-pi { min-width: 0; flex: 1 1 0; }
+  .sl-pi .pt { display: none; }
+  .sl-pi.on .pt { display: block; position: absolute; top: 34px; left: 0; white-space: nowrap; }
+  .sl-pick { padding-bottom: 26px; }
+}
